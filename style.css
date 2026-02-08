@@ -1,0 +1,503 @@
+/* RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    /* IMPORTANTE: Asegúrate que tu archivo se llame fondo.png */
+    background-image: url('fondo.png'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* EFECTO DE CAPA OSCURA (SOLO PARA EL CONTENIDO PRINCIPAL) */
+.overlay {
+    background: rgba(0, 30, 60, 0.4);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- HEADER DEFINITIVO (CENTRADO Y LOGO GRANDE) --- */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    margin-bottom: 30px;
+    background: rgba(0, 51, 102, 0.85);
+    padding: 20px 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    width: 100%;
+    max-width: 1200px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Contenedor Flex: Logo + Texto */
+.header-branding {
+    display: flex;
+    align-items: center; 
+    gap: 25px; 
+    margin-bottom: 20px;
+}
+
+/* LOGO: TAMAÑO AUMENTADO */
+.header-logo {
+    height: 95px; /* TAMAÑO GRANDE CORRECTO */
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    opacity: 0.95;
+    transition: transform 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.05);
+}
+
+/* BLOQUE DE TEXTO: CENTRADO */
+.header-text-block {
+    text-align: center; /* CENTRADO CORRECTO */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+header h1 { 
+    font-size: 2.2rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+header h2 { 
+    font-size: 1.1rem; 
+    font-weight: 300; 
+    margin-bottom: 0;
+    opacity: 0.9;
+    width: 100%; 
+}
+
+/* PASTILLA DEL DEPARTAMENTO */
+.dept-title { 
+    background: #fff; 
+    color: #003366; 
+    display: inline-block; 
+    padding: 6px 25px; 
+    font-weight: 700; 
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* RESPONSIVE HEADER */
+@media (max-width: 768px) {
+    .header-branding {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    .header-text-block {
+        text-align: center;
+    }
+    .header-logo {
+        height: 70px; 
+    }
+    header h1 { font-size: 1.6rem; }
+}
+
+/* --- FIN DEL HEADER --- */
+
+/* CONTENEDOR DE LAS 4 COLUMNAS */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    margin-bottom: 30px;
+}
+
+/* TARJETAS (EFECTO VIDRIO) */
+.card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: transform 0.3s ease;
+}
+
+.card:hover { transform: translateY(-5px); }
+
+/* CABECERAS DE LAS TARJETAS */
+.card-header {
+    padding: 20px;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.card-header i { font-size: 2rem; margin-bottom: 10px; display: block; }
+.card-header h3 { font-size: 1rem; font-weight: 700; letter-spacing: 1px; }
+
+/* COLORES */
+.color-1 { background: linear-gradient(135deg, #003366 0%, #00509e 100%); }
+.color-2 { background: linear-gradient(135deg, #00509e 0%, #007acc 100%); }
+.color-3 { background: linear-gradient(135deg, #007acc 0%, #4da6ff 100%); }
+.color-4 { background: linear-gradient(135deg, #003366 0%, #002244 100%); }
+
+/* LISTAS Y DISPONIBILIDAD */
+ul { list-style: none; padding: 20px; }
+
+ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+    color: #444;
+}
+
+/* --- ETIQUETAS DE STATUS MEJORADAS --- */
+.status {
+    font-size: 0.75rem; 
+    padding: 6px 14px;  
+    border-radius: 50px; 
+    font-weight: 800;   
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2); 
+    transition: transform 0.2s ease;
+}
+
+.status:hover {
+    transform: scale(1.05); 
+}
+
+/* --- DISPONIBLE: VERDE VIBRANTE --- */
+.ok {
+    background: linear-gradient(135deg, #66bb6a 0%, #2e7d32 100%);
+    color: white;
+    border: none; 
+    box-shadow: 0 4px 10px rgba(46, 125, 50, 0.4);
+}
+
+/* --- AGOTADO: ALERTA ROJA CON PULSO --- */
+.no {
+    background: linear-gradient(135deg, #ef5350 0%, #c62828 100%);
+    color: white;
+    border: none;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(239, 83, 80, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(239, 83, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 83, 80, 0); }
+}
+
+/* FOOTER */
+.footer-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    gap: 20px;
+}
+
+.info-box {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.info-box h4 {
+    color: #003366;
+    border-bottom: 2px solid #003366;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+.purple { background-color: #9b59b6; }
+.blue { background-color: #3498db; }
+.red { background-color: #e74c3c; }
+
+/* --- PANTALLA DE CARGA (INTRO) --- */
+#intro-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Asegúrate de que coincida con tu archivo: fondo.png o fondo.jpg */
+    background-image: url('fondo.png'); 
+    background-size: cover;
+    background-position: center;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+.intro-content {
+    color: white;
+    padding: 20px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.intro-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.intro-content h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8), 0 4px 8px rgba(0,0,0,0.6);
+}
+
+.dept-title-intro {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: rgba(0, 51, 102, 0.7); 
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.8);
+    display: inline-block;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* SPINNER */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255,255,255,0.3);
+    border-top: 5px solid #fff;
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: spin 1s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.fade-out { opacity: 0; visibility: hidden; }
+
+/* ANIMACIONES */
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* LOGO MINSA (INTRO) */
+.intro-logo {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 180px;
+    height: auto;
+    z-index: 10000;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    opacity: 0.95;
+}
+
+/* RESPONSIVE INTRO */
+@media (max-width: 768px) {
+    .intro-content h1 { font-size: 2rem; }
+    .intro-content h2 { font-size: 1.1rem; }
+    .dept-title-intro { font-size: 0.85rem; padding: 10px 20px; }
+    .intro-logo { width: 120px; top: 20px; left: 20px; }
+    .intro-content { padding-top: 60px; }
+}
+
+/* --- ESTILOS PARA LA PÁGINA DE DETALLE (detalle.html) --- */
+
+.overlay-detail {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px 20px 20px;
+    /* Fondo oscuro suave para resaltar la ficha */
+    background: rgba(0, 30, 60, 0.6); 
+}
+
+.detail-container {
+    background: rgba(255, 255, 255, 0.95); /* Casi blanco sólido para legibilidad */
+    width: 100%;
+    max-width: 900px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    overflow: hidden;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Cabecera Azul de la ficha */
+.detail-header {
+    background: linear-gradient(135deg, #003366 0%, #00509e 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+}
+
+.detail-header h1 {
+    font-size: 2rem;
+    margin: 10px 0 5px 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.exam-code {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.icon-box {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* Cuerpo de la ficha */
+.detail-body {
+    padding: 40px;
+}
+
+/* Grilla de información (Estilo Synlab) */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.info-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.label {
+    display: block;
+    font-size: 0.85rem;
+    color: #00509e; /* Azul institucional */
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.info-item p {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 400;
+}
+
+/* Resaltar Ayuno u observaciones importantes */
+.highlight-text {
+    color: #c0392b !important; /* Rojo oscuro para llamar atención */
+    font-weight: 600 !important;
+}
+
+/* Visualización del Tubo */
+.tube-display {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.tube-color-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid rgba(0,0,0,0.1);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Información Clínica / Descripción */
+.clinical-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #00509e;
+}
+
+.clinical-info h3 {
+    color: #003366;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.clinical-info p {
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Botón Volver Flotante */
+.btn-volver {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: white;
+    color: #003366;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 10000;
+    transition: transform 0.2s;
+}
+
+.btn-volver:hover {
+    transform: scale(1.05);
+    background: #f0f0f0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .detail-header { padding: 30px 20px; }
+    .detail-header h1 { font-size: 1.5rem; }
+    .detail-body { padding: 20px; }
+}
+
+/* ESTILO PARA LOS ENLACES DE EXÁMENES */
+.exam-link {
+    text-decoration: none; /* Quita el subrayado azul feo */
+    color: inherit;        /* Mantiene el color gris oscuro del texto original */
+    flex-grow: 1;          /* Ocupa todo el espacio posible para que sea fácil hacer clic */
+    cursor: pointer;       /* Muestra la manito al pasar el mouse */
+    transition: color 0.2s;
+}
+
+.exam-link:hover {
+    color: #00509e;        /* Se pone azulito al pasar el mouse para indicar que es clicable */
+    font-weight: 700;      /* Se pone un poquito más grueso */
+}
+

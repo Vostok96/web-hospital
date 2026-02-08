@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Examen - Hospital Víctor Ramos Guardia</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <a href="index.html" class="btn-volver"><i class="fa-solid fa-arrow-left"></i> Volver al listado</a>
+
+    <div class="overlay-detail">
+        <div class="detail-container">
+            <div class="detail-header">
+                <div class="icon-box" id="exam-icon-box">
+                    <i class="fa-solid fa-microscope" id="exam-icon"></i>
+                </div>
+                <h1 id="exam-title">Cargando examen...</h1>
+                <span class="exam-code" id="exam-code">COD: GEN-000</span>
+            </div>
+
+            <div class="detail-body">
+                <div class="info-grid">
+                    
+                    <div class="info-item">
+                        <span class="label">Muestra Requerida:</span>
+                        <p id="exam-sample">--</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Tubo / Contenedor:</span>
+                        <div class="tube-display" id="exam-tube">
+                            <span class="tube-color-circle"></span> --
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Ayuno / Preparación:</span>
+                        <p id="exam-prep" class="highlight-text">--</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Volumen Mínimo:</span>
+                        <p id="exam-volume">--</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Tiempo de Entrega:</span>
+                        <p id="exam-time">--</p>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="label">Metodología:</span>
+                        <p id="exam-method">--</p>
+                    </div>
+
+                </div>
+
+                <div class="clinical-info">
+                    <h3><i class="fa-solid fa-circle-info"></i> Información Clínica</h3>
+                    <p id="exam-desc">Seleccione un examen para ver su información detallada.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- BASE DE DATOS DE EXÁMENES ---
+        // Aquí agregas la info de cada examen. El "id" debe coincidir con el link del index.html
+        const examsDB = {
+            'hemograma': {
+                title: 'Hemograma Completo Automatizado',
+                code: 'HEM-001',
+                icon: 'fa-droplet', // Icono de fontawesome
+                sample: 'Sangre Total (Venosa)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color del círculo (Lila)
+                prep: 'No requiere ayuno estricto (recomendable 2-4 horas sin alimentos grasos).',
+                volume: '3 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Citometría de Flujo Fluorescente / Impedancia',
+                desc: 'El hemograma es un análisis de sangre que se usa para evaluar el estado de salud general y detectar una amplia variedad de enfermedades, incluida la anemia, las infecciones y la leucemia.'
+            },
+            'hemoglobina': {
+                title: 'Hemoglobina (Hb)',
+                code: 'HEM-002',
+                icon: 'fa-droplet', 
+                sample: 'Sangre Total (Venosa o Capilar)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color Lila
+                prep: 'No requiere ayuno. Puede tomarse a cualquier hora del día.',
+                volume: '2 mL (Adultos) / 0.5 mL (Niños)',
+                time: '1 - 2 Horas',
+                method: 'Espectrofotometría / Automatizado',
+                desc: 'La hemoglobina es una proteína en los glóbulos rojos que transporta oxígeno. Su medición es la prueba principal para diagnosticar anemia (baja hemoglobina) o policitemia (exceso de glóbulos rojos).'
+            },
+            'hematocrito': {
+                title: 'Hematocrito (Hto)',
+                code: 'HEM-003',
+                icon: 'fa-droplet', 
+                sample: 'Sangre Total (Venosa o Capilar)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color Lila
+                prep: 'No requiere ayuno estricto. Se puede realizar a cualquier hora.',
+                volume: '2 mL (Venosa) o Capilar',
+                time: '1 - 2 Horas',
+                method: 'Automatizado / Centrifugación (Microhematocrito)',
+                desc: 'El hematocrito mide el porcentaje del volumen total de sangre compuesto por glóbulos rojos. Es fundamental para evaluar la viscosidad de la sangre, detectar anemia (valores bajos) o deshidratación y policitemia (valores altos).'
+            },
+            'lamina': {
+                title: 'Lámina Periférica (Frotis)',
+                code: 'HEM-004',
+                icon: 'fa-microscope', // Icono de microscopio porque es visual
+                sample: 'Sangre Total (Venosa o Capilar)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color Lila
+                prep: 'No requiere ayuno. Se recomienda no haber ingerido comidas grasas previamente.',
+                volume: '2 mL (Venosa) o Capilar',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Tinción Wright / Microscopía Óptica',
+                desc: 'Consiste en extender una gota de sangre en un vidrio para examinar al microscopio la FORMA, tamaño y características de las células. Es vital para detectar anomalías que los equipos automatizados no ven, como formas inmaduras (leucemia), parásitos (malaria) o tipos específicos de anemia.'
+            },
+            'vsg': {
+                title: 'Velocidad de Sedimentación (VSG)',
+                code: 'HEM-005',
+                icon: 'fa-vial', // Usamos un vial porque la prueba es ver el tubo reposar
+                sample: 'Sangre Total (Venosa)',
+                tube: 'Tubo Lila (EDTA) o Negro (Citrato)',
+                tubeColor: '#9b59b6', // Lila (o puedes poner negro #000 si usas el método manual exclusivo)
+                prep: 'No requiere ayuno estricto. Se puede realizar a cualquier hora.',
+                volume: '2 mL',
+                time: '2 Horas',
+                method: 'Westergren (Automatizado o Manual)',
+                desc: 'Mide la rapidez con la que los glóbulos rojos se asientan en el fondo de un tubo en una hora. Es un marcador inespecífico de inflamación: si caen muy rápido (valor alto), indica que hay inflamación, infección o enfermedades autoinmunes en el cuerpo.'
+            },
+            'constantes': {
+                title: 'Constantes Corpusculares (VCM, HCM, CHCM)',
+                code: 'HEM-006',
+                icon: 'fa-chart-simple', // Usamos un gráfico porque son índices calculados
+                sample: 'Sangre Total (Venosa)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color Lila
+                prep: 'No requiere ayuno estricto. Se realiza junto con el hemograma.',
+                volume: '3 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Cálculo Automatizado / Impedancia',
+                desc: 'Son valores que describen el tamaño (VCM) y la cantidad de hemoglobina (HCM) dentro de cada glóbulo rojo. Son vitales para clasificar las anemias: si los glóbulos son muy pequeños (microcítica, usualmente por falta de hierro) o muy grandes (macrocítica, por falta de vitamina B12).'
+            },
+            'reticulocitos': {
+                title: 'Recuento de Reticulocitos',
+                code: 'HEM-007',
+                icon: 'fa-microscope', // Usamos microscopio porque se ven las redes de ARN
+                sample: 'Sangre Total (Venosa)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color Lila
+                prep: 'No requiere ayuno. Se puede realizar a cualquier hora.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Tinción Supravital (Azul de Cresil Brillante) / Automatizado',
+                desc: 'Cuenta los glóbulos rojos inmaduros (jóvenes) que acaban de salir de la médula ósea. Es la prueba esencial para saber si la médula está respondiendo adecuadamente a una anemia o pérdida de sangre.'
+            },
+            'plaquetas': {
+                title: 'Recuento de Plaquetas',
+                code: 'HEM-008',
+                icon: 'fa-droplet', // Usamos droplet porque son parte de la sangre
+                sample: 'Sangre Total (Venosa)',
+                tube: 'Tubo Lila (EDTA) o Azul (Citrato)',
+                tubeColor: '#9b59b6', // Lila (Principal)
+                prep: 'No requiere ayuno estricto. Se puede realizar a cualquier hora.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Impedancia Eléctrica / Automatizado',
+                desc: 'Las plaquetas son fragmentos celulares vitales para la coagulación y la cicatrización. Un recuento bajo (trombocitopenia) aumenta el riesgo de sangrado, mientras que uno alto (trombocitosis) puede aumentar el riesgo de coágulos.'
+            },
+            'grupo': {
+                title: 'Grupo Sanguíneo y Factor Rh',
+                code: 'HEM-009',
+                icon: 'fa-droplet', // Gotita de sangre, el ícono clásico
+                sample: 'Sangre Total (Venosa o Capilar)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color Lila
+                prep: 'No requiere ayuno. Se puede realizar en cualquier momento.',
+                volume: '2 mL (Venosa) o unas gotas (Capilar)',
+                time: '30 Min - 1 Hora (Mismo día)',
+                method: 'Aglutinación en Tubo / Gel (Microcolumnas) / Placa',
+                desc: 'Determina la clasificación de la sangre en los sistemas ABO (A, B, AB, O) y Rh (Positivo o Negativo). Es una prueba OBLIGATORIA y vital antes de cualquier transfusión de sangre, donación de órganos o durante el embarazo para detectar incompatibilidad materno-fetal.'
+            },
+            'coagulacion': {
+                title: 'Tiempo de Coagulación (TC)',
+                code: 'HEM-010',
+                icon: 'fa-stopwatch', // Usamos un cronómetro porque medimos tiempo
+                sample: 'Sangre Total (Sin Anticoagulante)',
+                tube: 'Tubo de Vidrio (Seco)',
+                tubeColor: '#bdc3c7', // Color Gris/Vidrio
+                prep: 'No requiere ayuno. Se realiza en el momento.',
+                volume: '3 mL (Venosa)',
+                time: '15 - 20 Minutos (Inmediato)',
+                method: 'Lee-White (Manual en tubo)',
+                desc: 'Mide el tiempo que tarda la sangre en formar un coágulo sólido fuera del cuerpo. Evalúa de forma global la vía intrínseca de la coagulación. Aunque ha sido reemplazado en gran medida por el TTPa, sigue siendo útil para evaluaciones rápidas de la hemostasia.'
+            },
+            'sangria': {
+                title: 'Tiempo de Sangría (TS)',
+                code: 'HEM-011',
+                icon: 'fa-hand-dots', // Usamos este icono o fa-droplet si no carga
+                sample: 'Capilar (Lóbulo de oreja o Antebrazo)',
+                tube: 'Papel de Filtro',
+                tubeColor: '#ecf0f1', // Color Blanco (Papel)
+                prep: 'No requiere ayuno. Importante informar si toma aspirina.',
+                volume: 'N/A (Prueba in vivo)',
+                time: '10 Minutos (Inmediato)',
+                method: 'Método de Duke (Oreja) o Ivy (Antebrazo)',
+                desc: 'Mide cuánto tiempo tarda en dejar de sangrar una pequeña incisión controlada. Evalúa la "Hemostasia Primaria": la capacidad de los vasos sanguíneos para contraerse y de las plaquetas para formar el tapón inicial.'
+            },
+            'ttpa': {
+                title: 'Tiempo de Tromboplastina (TTPa)',
+                code: 'HEM-012',
+                icon: 'fa-vial', // Usamos vial
+                sample: 'Plasma Citratado (Sangre Total)',
+                tube: 'Tubo Celeste (Citrato de Sodio)',
+                tubeColor: '#3498db', // Color Celeste
+                prep: 'No requiere ayuno. Es CRÍTICO llenar el tubo hasta la marca exacta (relación 9:1).',
+                volume: 'Tubo lleno (aprox 2.7 mL)',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Coagulométrico / Óptico Automatizado',
+                desc: 'Mide el tiempo que tarda la sangre en coagularse a través de la vía intrínseca. Es fundamental para monitorear pacientes en tratamiento con HEPARINA y para detectar deficiencias de factores de coagulación (como en la Hemofilia).'
+            },
+            'protrombina': {
+                title: 'Tiempo de Protrombina (TP / INR)',
+                code: 'HEM-013',
+                icon: 'fa-stopwatch', // Usamos cronómetro
+                sample: 'Plasma Citratado (Sangre Total)',
+                tube: 'Tubo Celeste (Citrato de Sodio)',
+                tubeColor: '#3498db', // Color Celeste
+                prep: 'No requiere ayuno. Es CRÍTICO llenar el tubo hasta la marca exacta (relación 9:1) para no alterar el resultado.',
+                volume: 'Tubo lleno (aprox 2.7 mL)',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Coagulométrico / Óptico Automatizado',
+                desc: 'Mide el tiempo que tarda el plasma en coagularse al activar la vía extrínseca. Se reporta junto con el INR (Índice Internacional Normalizado), que es el estándar mundial para ajustar la dosis de WARFARINA y evaluar el funcionamiento del hígado.'
+            },
+            'dimero': {
+                title: 'Dímero D (Cuantitativo)',
+                code: 'HEM-014',
+                icon: 'fa-lungs', // Usamos pulmones porque es clave para descartar Embolia Pulmonar
+                sample: 'Plasma Citratado (Sangre Total)',
+                tube: 'Tubo Celeste (Citrato de Sodio)',
+                tubeColor: '#3498db', // Color Celeste
+                prep: 'No requiere ayuno. Es una prueba de EMERGENCIA.',
+                volume: 'Tubo lleno (aprox 2.7 mL)',
+                time: '45 Min - 1 Hora (Prioridad Emergencia)',
+                method: 'Inmunoturbidimetría / ELFA (Automatizado)',
+                desc: 'Detecta fragmentos de proteína que se liberan cuando un coágulo de sangre se disuelve. Es la prueba estándar para DESCARTAR Trombosis Venosa Profunda (TVP), Embolia Pulmonar (EP) o Coagulación Intravascular Diseminada (CID).'
+            },
+            'fibrinogeno': {
+                title: 'Fibrinógeno',
+                code: 'HEM-015',
+                icon: 'fa-vial', // Usamos vial genérico
+                sample: 'Plasma Citratado (Sangre Total)',
+                tube: 'Tubo Celeste (Citrato de Sodio)',
+                tubeColor: '#3498db', // Color Celeste
+                prep: 'No requiere ayuno. Es CRÍTICO el llenado correcto del tubo.',
+                volume: 'Tubo lleno (aprox 2.7 mL)',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Coagulométrico (Método de Clauss)',
+                desc: 'Mide la cantidad de Factor I de la coagulación en la sangre. Esta proteína es la que finalmente se convierte en fibrina para formar el tapón del coágulo. Se utiliza para investigar sangrados anormales o monitorizar la Coagulación Intravascular Diseminada (CID).'
+            },
+            'gotagruesa': {
+                title: 'Gota Gruesa (Descarte de Malaria)',
+                code: 'HEM-016',
+                icon: 'fa-mosquito', // Usamos el mosquito (o fa-microscope si no carga)
+                sample: 'Sangre Capilar (Punción en dedo) o Venosa',
+                tube: 'Láminas de Vidrio (Portaobjetos) / Tubo Lila',
+                tubeColor: '#9b59b6', // Lila
+                prep: 'No requiere ayuno. SE RECOMIENDA tomar la muestra durante el pico de fiebre o escalofríos para encontrar más parásitos.',
+                volume: '3-4 gotas grandes',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Tinción Giemsa / Microscopía Óptica (100x)',
+                desc: 'Es el "Gold Standard" para el diagnóstico de Malaria. Consiste en concentrar una gran cantidad de sangre en una pequeña zona del vidrio para que el microscopista pueda detectar al parásito (Plasmodium) incluso si hay muy pocos en la sangre.'
+            },
+            'bartonela': {
+                title: 'Descarte de Bartonela (Enfermedad de Carrión)',
+                code: 'HEM-017',
+                icon: 'fa-bacterium', // Usamos bacteria (o fa-microscope si no carga)
+                sample: 'Sangre Total (Capilar o Venosa)',
+                tube: 'Tubo Lila (EDTA) / Lámina directa',
+                tubeColor: '#9b59b6', // Lila
+                prep: 'No requiere ayuno. Ideal tomar la muestra durante picos febriles.',
+                volume: '2 mL o gotas',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Frotis Sanguíneo (Tinción Giemsa / Wright)',
+                desc: 'Busca la presencia de la bacteria *Bartonella bacilliformis* dentro de los glóbulos rojos. Es vital para diagnosticar la "Fiebre de la Oroya" (fase aguda anémica) o la "Verruga Peruana" (fase crónica), enfermedades endémicas en nuestros valles interandinos.'
+            },
+            'coombsdirecto': {
+                title: 'Test de Coombs Directo (DAT)',
+                code: 'HEM-018',
+                icon: 'fa-shield-virus', // Usamos escudo porque detecta anticuerpos (defensas)
+                sample: 'Sangre Total (Venosa) o Sangre de Cordón Umbilical',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Color Lila
+                prep: 'No requiere ayuno. Fundamental en recién nacidos con ictericia.',
+                volume: '2 - 3 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Aglutinación en Tubo / Gel (Microcolumnas)',
+                desc: 'Detecta anticuerpos o complemento que ya están "pegados" a la superficie de los glóbulos rojos dentro del cuerpo. Es la prueba clave para diagnosticar Anemia Hemolítica Autoinmune y la Enfermedad Hemolítica del Recién Nacido (incompatibilidad sanguínea madre-hijo).'
+            },
+            'coombsindirecto': {
+                title: 'Test de Coombs Indirecto (IAT)',
+                code: 'HEM-019',
+                icon: 'fa-magnifying-glass', // Lupa, porque "buscamos" anticuerpos libres
+                sample: 'Suero Sanguíneo (Sangre Venosa)',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. Es vital en el control prenatal.',
+                volume: '3 - 5 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Aglutinación en Tubo / Gel (Microcolumnas)',
+                desc: 'Busca anticuerpos "libres" que circulan en el plasma de la sangre. Se utiliza principalmente para: 1) Pruebas de compatibilidad antes de una transfusión (para asegurar que el paciente no rechazará la sangre) y 2) En mujeres embarazadas para detectar riesgo de incompatibilidad Rh con el bebé.'
+            },
+                    
+            // --- BIOQUÍMICA CLÍNICA ---
+
+            'glucosa': {
+                title: 'Glucosa Basal',
+                code: 'BIO-001',
+                icon: 'fa-flask',
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Color Rojo
+                prep: 'AYUNO OBLIGATORIO de 8 a 12 horas. Solo se permite beber agua.',
+                volume: '2 mL',
+                time: '2 Horas',
+                method: 'Enzimático (Hexoquinasa)',
+                desc: 'Mide la cantidad de glucosa (azúcar) en la sangre. Es la prueba principal para el diagnóstico y monitoreo de la diabetes.'
+            },
+            'ureacreat': {
+                title: 'Perfil Renal (Urea y Creatinina)',
+                code: 'BIO-002',
+                icon: 'fa-kidney', // Si no carga, usa 'fa-flask'
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto, pero se recomienda 8 horas. Evitar ejercicio intenso 24h antes (afecta la creatinina).',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Cinético / Enzimático (Ureasa)',
+                desc: 'Evalúan la función de los RIÑONES. La urea es un desecho del metabolismo de las proteínas y la creatinina es un desecho de los músculos. Si se acumulan en la sangre (valores altos), indica que los riñones no están filtrando bien (Insuficiencia Renal).'
+            },
+            'amilasa': {
+                title: 'Amilasa',
+                code: 'BIO-003',
+                icon: 'fa-flask',
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Evitar alcohol 24h antes.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Enzimático Colorimétrico',
+                desc: 'Es una enzima producida principalmente por el páncreas y las glándulas salivales para digerir carbohidratos. Su elevación rápida suele indicar PANCREATITIS AGUDA o problemas en los conductos biliares.'
+            },
+            'lipasa': {
+                title: 'Lipasa',
+                code: 'BIO-004',
+                icon: 'fa-flask', 
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno deseable de 4-8 horas.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Enzimático Colorimétrico',
+                desc: 'Es una enzima pancreática que ayuda a digerir las grasas. Es MÁS ESPECÍFICA que la amilasa para diagnosticar daño en el páncreas. Si sale alta, es casi seguro que hay una lesión pancreática.'
+            },
+            'bilirrubinas': {
+                title: 'Bilirrubina Total y Fraccionada',
+                code: 'BIO-005',
+                icon: 'fa-eye', // Usamos el ojo porque el síntoma es la Ictericia (ojos amarillos)
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 4 a 8 horas. Evitar comer zanahorias o alimentos muy coloridos el día anterior.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Colorimétrico (Jendrassik-Grof)',
+                desc: 'Mide el pigmento amarillo que se produce por la degradación normal de los glóbulos rojos. Se desglosa en Directa (conjugada en el hígado) e Indirecta. Es fundamental para evaluar la causa de la ICTERICIA (piel amarilla): si es por problemas hepáticos, obstrucción biliar o destrucción de sangre.'
+            },
+            'tgo': {
+                title: 'TGO (Aspartato Aminotransferasa - AST)',
+                code: 'BIO-006',
+                icon: 'fa-heart-pulse', // Usamos corazón/pulso porque también está en el corazón y músculo
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto, pero se recomienda 8 horas. Evitar ejercicio físico intenso antes de la toma.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Cinético Enzimático (IFCC)',
+                desc: 'Es una enzima que se encuentra en el hígado, pero TAMBIÉN en el corazón y los músculos. Si sale elevada, indica daño celular, pero no es exclusiva del hígado (puede subir por un infarto o ejercicio extremo).'
+            },
+            'tgp': {
+                title: 'TGP (Alanina Aminotransferasa - ALT)',
+                code: 'BIO-007',
+                icon: 'fa-flask', // Usamos matraz
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Evitar consumo de alcohol 24 horas antes.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Cinético Enzimático (IFCC)',
+                desc: 'Es la enzima "reina" del hígado. A diferencia de la TGO, la TGP se encuentra casi exclusivamente en las células hepáticas. Su elevación es el indicador MÁS ESPECÍFICO de daño hepático (Hepatitis viral, hígado graso o toxicidad por medicamentos).'
+            },
+            'ggt': {
+                title: 'Gamma Glutamil Transferasa (GGT)',
+                code: 'BIO-008',
+                icon: 'fa-wine-bottle', // Usamos botella porque es muy sensible al alcohol
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 8 horas. INDISPENSABLE no haber consumido alcohol en las últimas 24-48 horas.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Enzimático Colorimétrico',
+                desc: 'Es una enzima muy sensible a la obstrucción de los conductos biliares (piedras en la vesícula) y al consumo de ALCOHOL. A menudo es la primera enzima hepática que se eleva en bebedores crónicos o cuando hay colestasis.'
+            },
+            'lactato': {
+                title: 'Ácido Láctico (Lactato)',
+                code: 'BIO-009',
+                icon: 'fa-triangle-exclamation', // Usamos advertencia porque indica gravedad/sepsis
+                sample: 'Plasma (Venoso o Arterial)',
+                tube: 'Tubo Gris (Fluoruro) o Jeringa de Gases',
+                tubeColor: '#7f8c8d', // Color Gris
+                prep: 'No requiere ayuno. IMPORTANTE: El paciente debe estar en reposo. Se debe evitar el uso prolongado del torniquete al tomar la muestra para no alterar el resultado.',
+                volume: '2 mL',
+                time: '1 - 2 Horas (Prioridad Emergencia)',
+                method: 'Enzimático Colorimétrico',
+                desc: 'Mide el nivel de lactato en la sangre. Es el marcador principal de SEPSIS (infección generalizada grave), shock o falta de oxígeno en los tejidos (hipoxia). Un valor elevado indica que las células están sufriendo y requieren atención inmediata.'
+            },
+            'ldh': {
+                title: 'Deshidrogenasa Láctica (LDH)',
+                code: 'BIO-010',
+                icon: 'fa-heart-crack', // Usamos corazón roto o daño celular
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Es vital que la muestra no esté hemolizada (glóbulos rotos), ya que esto eleva falsamente el resultado.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Cinético UV (IFCC)',
+                desc: 'Es una enzima presente en casi todos los tejidos del cuerpo. Se libera a la sangre cuando hay DESTRUCCIÓN CELULAR. Se usa para monitorear daño en órganos (infarto, hígado), ciertos tipos de cáncer (linfomas) o anemias hemolíticas.'
+            },
+            'cpk': {
+                title: 'CPK Total (Creatina Fosfoquinasa)',
+                code: 'BIO-011',
+                icon: 'fa-dumbbell', // Usamos una pesa porque sube mucho con ejercicio muscular
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. IMPORTANTE: No haber realizado ejercicio físico intenso (gimnasio, correr) 24 horas antes, ya que eleva falsamente el resultado.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Enzimático UV (IFCC)',
+                desc: 'Mide la cantidad total de la enzima CPK en la sangre. Esta enzima vive en el corazón, el cerebro y los músculos esqueléticos. Se eleva cuando hay daño muscular (golpes, inyecciones, ejercicio extremo) o infarto al corazón.'
+            },
+            'ckmb': {
+                title: 'CK-MB (Fracción MB)',
+                code: 'BIO-012',
+                icon: 'fa-heart-pulse', // Usamos corazón con pulso
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. Se toma usualmente en emergencias o controles cardíacos.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Inmunoinhibición / Quimioluminiscencia',
+                desc: 'Es la fracción de la CPK que es específica del músculo del CORAZÓN. Ayuda a diferenciar si el dolor de pecho es por un infarto o solo dolor muscular. También es útil para detectar reinfartos tempranos.'
+            },
+            'fosfatasa': {
+                title: 'Fosfatasa Alcalina (ALP)',
+                code: 'BIO-013',
+                icon: 'fa-bone', // Usamos un hueso para destacar su origen óseo (diferente al hígado)
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 8 horas recomendado. La ingesta de comidas grasas puede elevarla ligeramente.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Cinético Colorimétrico (IFCC)',
+                desc: 'Es una enzima que se encuentra principalmente en el HÍGADO y los HUESOS. Su elevación indica generalmente dos cosas: 1) Obstrucción de las vías biliares (junto con la GGT) o 2) Actividad ósea (es normal que esté alta en niños que están creciendo o tras fracturas).'
+            },
+            'microalbumina': {
+                title: 'Microalbuminuria',
+                code: 'BIO-014',
+                icon: 'fa-filter', // Usamos filtro porque evalúa el filtrado del riñón
+                sample: 'Orina (Primera de la mañana o al Azar)',
+                tube: 'Frasco de Orina Estéril',
+                tubeColor: '#f1c40f', // Amarillo
+                prep: 'No requiere ayuno. Se recomienda la primera orina de la mañana. Evitar ejercicio intenso 24h antes.',
+                volume: '10 - 20 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Inmunoturbidimetría',
+                desc: 'Detecta cantidades muy pequeñas de albúmina (proteína) en la orina que los exámenes normales no ven. Es el PRIMER indicador de daño renal en pacientes con DIABETES o HIPERTENSIÓN. Si sale positiva, indica que el riñón está empezando a sufrir, permitiendo actuar a tiempo antes de que el daño sea irreversible.'
+            },
+            'colesterol': {
+                title: 'Colesterol Total',
+                code: 'BIO-015',
+                icon: 'fa-burger', // Usamos hamburguesa por la asociación con dieta
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno estricto de 12 horas. La cena anterior debe ser ligera y baja en grasas.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Enzimático Colorimétrico (CHOD-PAP)',
+                desc: 'Mide la cantidad total de colesterol en la sangre. Es una grasa necesaria para formar células y hormonas, pero en exceso se pega a las arterias y aumenta el riesgo de enfermedades cardiovasculares.'
+            },
+            'hdl': {
+                title: 'HDL Colesterol (Bueno)',
+                code: 'BIO-016',
+                icon: 'fa-shield-heart', // Escudo en el corazón porque protege
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno estricto de 12 horas.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Directo / Precipitación',
+                desc: 'Conocido como el "Colesterol BUENO". Su función es limpiar las arterias, recogiendo el exceso de grasa y llevándolo al hígado para eliminarlo. Tenerlo ALTO es bueno y protege el corazón.'
+            },
+            'ldl': {
+                title: 'LDL Colesterol (Malo)',
+                code: 'BIO-017',
+                icon: 'fa-skull-crossbones', // Calavera o peligro, porque es el dañino
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno estricto de 12 horas.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Directo / Cálculo (Fórmula de Friedewald)',
+                desc: 'Conocido como el "Colesterol MALO". Es el principal culpable de tapar las arterias (aterosclerosis), causando infartos y derrames cerebrales. El objetivo del tratamiento siempre es mantenerlo BAJO.'
+            },
+            'vldl': {
+                title: 'VLDL Colesterol',
+                code: 'BIO-019',
+                icon: 'fa-truck-fast', // Usamos un camión porque es el "transportista" de grasa
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno estricto de 12 a 14 horas. El alcohol afecta directamente este valor.',
+                volume: 'Calculado',
+                time: '2 Horas (Mismo día)',
+                method: 'Cálculo (Triglicéridos / 5)',
+                desc: 'Es la Lipoproteína de Muy Baja Densidad. Su función principal es servir de "camión de carga" para mover los Triglicéridos por la sangre. Niveles altos de VLDL hacen que la sangre sea más espesa y turbia, aumentando el riesgo de infartos y pancreatitis.'
+            },
+            'trigliceridos': {
+                title: 'Triglicéridos',
+                code: 'BIO-018',
+                icon: 'fa-pizza-slice', // Pizza, porque suben mucho con harinas y grasas
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno estricto de 12 a 14 horas. NO consumir alcohol 24h antes.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Enzimático Colorimétrico (GPO-PAP)',
+                desc: 'Es el tipo de grasa más común en el cuerpo. Proviene de las calorías que comemos pero no quemamos de inmediato (especialmente dulces, pan y alcohol). Niveles muy altos pueden causar Pancreatitos Aguda.'
+            },
+            'proteinas': {
+                title: 'Proteínas Totales y Fraccionadas',
+                code: 'BIO-020',
+                icon: 'fa-layer-group', // Usamos capas para representar las fracciones (Albúmina/Globulina)
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto, pero se recomienda 4 horas. Evitar comidas muy grasosas antes.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Colorimétrico (Biuret) / Cálculo',
+                desc: 'Mide la cantidad de proteínas en la sangre, dividiéndolas en Albúmina (nutrición y función hepática) y Globulinas (defensas del cuerpo). La relación entre ambas (Índice A/G) es vital para detectar problemas de hígado, riñón o enfermedades autoinmunes como el Lupus.'
+            },
+            'fosforo': {
+                title: 'Fósforo',
+                code: 'BIO-021',
+                icon: 'fa-fish', // Usamos pescado (fuente rica en fósforo)
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 8 horas. Se recomienda tomar la muestra en la mañana (el nivel baja por la tarde).',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Colorimétrico UV (Fosfomolibdato)',
+                desc: 'Mineral vital para la producción de energía y la formación de huesos y dientes. Su nivel está inversamente relacionado con el Calcio (si uno sube, el otro baja). Es fundamental monitorearlo en pacientes con Enfermedad Renal Crónica.'
+            },
+            'magnesio': {
+                title: 'Magnesio',
+                code: 'BIO-022',
+                icon: 'fa-bolt', // Rayo, porque es vital para la energía y los impulsos nerviosos
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Evitar el uso de laxantes o antiácidos con magnesio antes de la prueba.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Colorimétrico (Xylidyl Blue)',
+                desc: 'Es el "olvidado" de los electrolitos, pero vital para el ritmo del corazón y la función muscular. Si tienes calambres constantes, arritmias o debilidad, este es el examen a revisar. Además, sin Magnesio suficiente, el cuerpo no puede absorber el Calcio ni el Potasio.'
+            },
+            'calcio': {
+                title: 'Calcio Sérico',
+                code: 'BIO-023',
+                icon: 'fa-bone', // Hueso, su principal depósito
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Evitar suplementos de calcio 24h antes.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Colorimétrico (Arsenazo III / O-Cresolftaleína)',
+                desc: 'El mineral más abundante del cuerpo. No solo forma los huesos; es el "interruptor" eléctrico que permite que los músculos se contraigan y los nervios envíen señales. Niveles anormales pueden causar desde hormigueos (tetania) hasta problemas cardíacos graves.'
+            },
+            'uric': {
+                title: 'Ácido Úrico',
+                code: 'BIO-024',
+                icon: 'fa-joint', // Articulación, porque causa Gota
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 8 horas. Evitar consumo excesivo de carnes rojas y alcohol el día anterior.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Enzimático Colorimétrico (Uricasa)',
+                desc: 'Mide el producto final del metabolismo de las purinas (carnes, alcohol). Si se acumula en la sangre, forma cristales que se depositan en las articulaciones causando "Gota" (dolor agudo) o en los riñones formando cálculos renales.'
+            },
+            'electrolitos': {
+                title: 'Electrolitos (Na, K, Cl)',
+                code: 'BIO-025',
+                icon: 'fa-bolt', // Rayo/Electricidad
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Evitar actividad física intensa antes de la toma.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Electrodo Selectivo de Iones (ISE)',
+                desc: 'Mide el Sodio (Na), Potasio (K) y Cloro (Cl). Son vitales para mantener el equilibrio de agua en el cuerpo (hidratación), el pH de la sangre y, lo más importante, el ritmo eléctrico del CORAZÓN. El Potasio muy alto o muy bajo puede ser mortal.'
+            },
+            'depuracion': {
+                title: 'Depuración de Creatinina (Clearence)',
+                code: 'BIO-026',
+                icon: 'fa-filter', // Filtro renal
+                sample: 'Suero Sanguíneo + Orina de 24 Horas',
+                tube: 'Tubo Rojo + Galonera de Orina',
+                tubeColor: '#f39c12', // Naranja/Amarillo oscuro
+                prep: 'Recolectar TODA la orina durante 24 horas exactas. Mantener la orina refrigerada. Se toma muestra de sangre al entregar la orina.',
+                volume: 'Volumen total de 24h',
+                time: '2 Horas (tras recibir la muestra)',
+                method: 'Cálculo (Orina/Suero)',
+                desc: 'Es la prueba más precisa para medir la Tasa de Filtrado Glomerular (cuánto filtra el riñón por minuto). Compara la creatinina en sangre con la que el riñón logra eliminar en la orina durante un día entero. Es el estándar para ajustar dosis de medicamentos en insuficiencia renal.'
+            },
+            'ferritina': {
+                title: 'Ferritina',
+                code: 'BIO-027',
+                icon: 'fa-battery-half', // Usamos batería porque representa la "reserva" de energía/hierro
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 8 horas. Se recomienda tomar la muestra por la mañana.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Inmunoturbidimetría / Quimioluminiscencia',
+                desc: 'Mide las RESERVAS de hierro en el cuerpo. Es el indicador más sensible para detectar deficiencia de hierro antes de que aparezca la anemia. OJO: También es un "reactante de fase aguda", lo que significa que sube falsamente si hay inflamación o infección activa.'
+            },
+            'citoquimico': {
+                title: 'Citoquímico de Líq. Biológicos',
+                code: 'BIO-028',
+                icon: 'fa-syringe', // Jeringa, ya que se obtienen por punción (toracocentesis, paracentesis, PL)
+                sample: 'Líquido Pleural, Ascítico, LCR, Sinovial, etc.',
+                tube: 'Tubo Lila (Células) y Tubo Rojo (Química)',
+                tubeColor: '#9b59b6', // Lila/Rojo
+                prep: 'No requiere ayuno. La muestra es tomada por el médico especialista mediante punción.',
+                volume: 'Variable (min 2-5 mL)',
+                time: '2 - 3 Horas (Prioridad si es LCR)',
+                method: 'Microscopía (Recuento celular) + Química seca',
+                desc: 'Análisis integral de líquidos corporales (LCR, Pleural, Ascítico, Articular). Incluye: 1) Examen Físico (Color/Aspecto), 2) Recuento Celular (para ver si hay infección o cáncer) y 3) Examen Químico (Glucosa, Proteínas, LDH). Vital para diagnosticar meningitis, derrames o tuberculosis pleural.'
+            },
+            'hba1c': {
+                title: 'HbA1c (Hemoglobina Glicosilada)',
+                code: 'BIO-029',
+                icon: 'fa-chart-line', // Gráfico, porque muestra el historial de 3 meses
+                sample: 'Sangre Total (Venosa)',
+                tube: 'Tubo Lila (EDTA)',
+                tubeColor: '#9b59b6', // Lila
+                prep: 'NO requiere ayuno obligatorio (se puede tomar a cualquier hora).',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Turbidimetría / HPLC',
+                desc: 'Es el "detector de mentiras" del diabético. Mide el PROMEDIO de azúcar en sangre de los últimos 3 meses. A diferencia de la glucosa en ayunas (que cambia día a día), la HbA1c revela si el tratamiento realmente está funcionando a largo plazo.'
+            },
+            // --- INMUNOLOGÍA Y HORMONAS ---
+
+            'aglutinaciones': {
+                title: 'Aglutinaciones (Febriles / Tíficas)',
+                code: 'INM-001',
+                icon: 'fa-bacteria', // Icono de bacteria
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Se recomienda no estar tomando antibióticos.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Aglutinación en Placa / Tubo',
+                desc: 'Detecta anticuerpos contra bacterias que causan fiebre prolongada. Incluye: Tífico O y H (Salmonella/Fiebre Tifoidea), Paratíficos A y B, y Brucella (Fiebre Malta). Es la prueba clásica para investigar fiebres de origen desconocido.'
+            },
+            'rosabengala': {
+                title: 'Rosa de Bengala',
+                code: 'INM-002',
+                icon: 'fa-cow', // Vaca, porque es zoonosis (viene del ganado)
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '1 Hora (Mismo día)',
+                method: 'Aglutinación Rápida en Placa',
+                desc: 'Es una prueba de tamizaje rápida y específica para detectar BRUCELOSIS (Fiebre de Malta). Esta enfermedad se transmite por consumir quesos frescos o leche no pasteurizada de cabra/vaca infectada.'
+            },
+            'factorreumatoideo': {
+                title: 'Factor Reumatoideo (FR)',
+                code: 'INM-003',
+                icon: 'fa-hands-bubbles', // Manos, zona común de artritis
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto, pero se prefiere en ayunas (lipemia interfiere).',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Turbidimetría / Aglutinación (Látex)',
+                desc: 'Detecta un autoanticuerpo que ataca los tejidos propios del cuerpo. Niveles altos se asocian fuertemente con la ARTRITIS REUMATOIDE y el Síndrome de Sjögren, aunque también puede elevarse en infecciones crónicas.'
+            },
+            'aso': {
+                title: 'Antiestreptolisina O (ASO)',
+                code: 'INM-004',
+                icon: 'fa-head-side-cough', // Garganta/Tos
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Turbidimetría / Aglutinación (Látex)',
+                desc: 'Mide los anticuerpos producidos tras una infección por estreptococo (faringitis mal curada). Si está muy alto, indica riesgo de FIEBRE REUMÁTICA, la cual puede dañar las válvulas del corazón y las articulaciones.'
+            },
+            'pcr': {
+                title: 'Proteína C Reactiva (PCR)',
+                code: 'INM-005',
+                icon: 'fa-fire', // Fuego = Inflamación
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '2 Horas (Mismo día)',
+                method: 'Inmunoturbidimetría / Látex',
+                desc: 'Es el marcador general de INFLAMACIÓN más utilizado. El hígado la produce rápidamente cuando hay infección, golpes, cirugía o inflamación activa. A diferencia de la VSG, la PCR sube y baja muy rápido, lo que la hace ideal para monitorear si un antibiótico está funcionando.'
+            },
+            'hcg': {
+                title: 'HCG (Subunidad Beta - Embarazo)',
+                code: 'INM-006',
+                icon: 'fa-baby', // Bebé
+                sample: 'Suero Sanguíneo (Cualitativa o Cuantitativa)',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. Se puede detectar desde los 10 días post-concepción.',
+                volume: '2 mL',
+                time: '1 - 2 Horas (Mismo día)',
+                method: 'Inmunocromatografía (Rápida) / ECLIA (Cuantitativa)',
+                desc: 'Detecta la hormona del embarazo (Gonadotropina Coriónica Humana). La prueba en SANGRE es mucho más sensible que la de orina y puede confirmar el embarazo en etapas muy tempranas. La versión Cuantitativa indica las semanas aproximadas de gestación.'
+            },
+            'vih': {
+                title: 'Descarte de VIH (1 y 2)',
+                code: 'INM-007',
+                icon: 'fa-ribbon', // El lazo rojo es el símbolo universal
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. CONFIDENCIALIDAD GARANTIZADA.',
+                volume: '2 mL',
+                time: '2 Horas (Prueba Rápida) / 24h (ELISA)',
+                method: 'Inmunocromatografía (4ta Gen) / ELISA / Quimioluminiscencia',
+                desc: 'Detecta anticuerpos contra el Virus de Inmunodeficiencia Humana y el antígeno p24. Las pruebas de 4ta generación reducen el "periodo ventana" a solo unas semanas. Es fundamental para el diagnóstico temprano y el inicio del tratamiento antirretroviral.'
+            },
+            'hepatitis': {
+                title: 'Perfil de Hepatitis Viral (A, B, C)',
+                code: 'INM-008',
+                icon: 'fa-liver', // Hígado (o fa-virus si no carga)
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto.',
+                volume: '3 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Inmunocromatografía / ELISA / CLIA',
+                desc: 'Evalúa la presencia de virus que inflaman el hígado. Hepatitis A (transmisión por alimentos), Hepatitis B (sangre/fluidos, riesgo crónico) y Hepatitis C (sangre, riesgo de cirrosis). Incluye Antígeno de Superficie (HBsAg) para la Hepatitis B.'
+            },
+            'sifilis': {
+                title: 'Sífilis (VDRL / RPR)',
+                code: 'INM-009',
+                icon: 'fa-venus-mars', // Símbolo de género o relación
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '1 - 2 Horas (Mismo día)',
+                method: 'Floculación (RPR/VDRL) / Tira Rápida',
+                desc: 'Prueba de tamizaje para detectar la bacteria *Treponema pallidum*. Es fundamental en chequeos prenupciales, control de embarazo y diagnóstico de ETS. Si sale reactivo, se confirma con una prueba treponémica específica.'
+            },
+            'troponina': {
+                title: 'Troponina I (Alta Sensibilidad)',
+                code: 'INM-010',
+                icon: 'fa-heart-crack', // Corazón dañado
+                sample: 'Suero Sanguíneo o Sangre Total',
+                tube: 'Tubo Rojo, Verde (Heparina) o Lila',
+                tubeColor: '#2ecc71', // Verde (varía según equipo)
+                prep: 'No requiere ayuno. ES UNA EMERGENCIA MÉDICA.',
+                volume: '2 mL',
+                time: '30 Min - 1 Hora (Prioridad A1)',
+                method: 'Inmunofluorescencia / Quimioluminiscencia',
+                desc: 'Es el marcador MÁS ESPECÍFICO de daño cardíaco. Se eleva apenas unas horas después de un INFARTO. Si tienes dolor de pecho y esta prueba sale positiva, indica que el músculo del corazón está sufriendo necrosis.'
+            },
+            'procalcitonina': {
+                title: 'Procalcitonina',
+                code: 'INM-011',
+                icon: 'fa-bacteria', // Bacteria peligrosa
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. Se usa en pacientes críticos.',
+                volume: '2 mL',
+                time: '1 - 2 Horas (Prioridad A1)',
+                method: 'Inmunofluorescencia / CLIA',
+                desc: 'Es el marcador "Gold Standard" para diagnosticar SEPSIS BACTERIANA (infección generalizada). Ayuda a diferenciar si una infección es por bacterias (requiere antibióticos urgentes) o por virus/inflamación (no requiere antibióticos). Salva vidas al dirigir el tratamiento en UCI.'
+            },
+            // --- PERFIL TIROIDEO ---
+            'tsh': {
+                title: 'TSH (Hormona Estimulante de Tiroides)',
+                code: 'HOR-001',
+                icon: 'fa-temperature-half', // Termostato del cuerpo
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 4 horas. Si toma Levotiroxina, NO tomarla antes de la muestra.',
+                volume: '2 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Quimioluminiscencia (CLIA) / ELISA',
+                desc: 'Es la prueba MÁS IMPORTANTE para ver si la tiroides funciona bien. La TSH es el "jefe" que ordena a la tiroides trabajar. Si está ALTA, indica Hipotiroidismo (tiroides lenta). Si está BAJA, indica Hipertiroidismo (tiroides acelerada).'
+            },
+            't3t4': { // Agrupamos T3 y T4 totales para no llenar tanto, o puedes separarlos si prefieres
+                title: 'T3 y T4 (Totales)',
+                code: 'HOR-002',
+                icon: 'fa-bolt', // Energía
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 4 horas.',
+                volume: '2 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Miden la cantidad total de hormonas tiroideas en sangre. Son responsables de controlar el metabolismo (qué tan rápido quema energía tu cuerpo). Se piden junto a la TSH para confirmar el diagnóstico.'
+            },
+            'libres': { // T3 Libre y T4 Libre
+                title: 'T3 Libre y T4 Libre',
+                code: 'HOR-003',
+                icon: 'fa-microscope', // Más preciso
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 4 horas. NO tomar la pastilla de la tiroides antes del examen.',
+                volume: '2 mL',
+                time: '2 - 4 Horas (Mismo día)',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Son la versión "activa" y precisa de las hormonas tiroideas. A diferencia de las totales, estas no se ven afectadas por proteínas ni embarazo. Son OBLIGATORIAS para el ajuste exacto de la dosis de medicamentos.'
+            },
+
+    // --- PERFIL FERTILIDAD Y ESTRÉS ---
+            'fshlh': {
+                title: 'FSH y LH (Gonadotropinas)',
+                code: 'HOR-004',
+                icon: 'fa-circle-nodes', // Ejes hormonales
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. MUJERES: Tomar entre el día 3 y 5 del ciclo menstrual.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Son las directoras del ciclo menstrual y la fertilidad. La FSH estimula los óvulos/espermatozoides y la LH dispara la ovulación. Vitales para estudiar infertilidad, ovarios poliquísticos (SOP) o menopausia.'
+            },
+            'estradiol': {
+                title: 'Estradiol (E2)',
+                code: 'HOR-005',
+                icon: 'fa-venus', // Símbolo femenino
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. El valor cambia según el día del ciclo menstrual.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Es el estrógeno principal. Prepara el útero para el embarazo y mantiene la salud ósea. Se mide para evaluar la función de los ovarios o monitorear tratamientos de fertilidad.'
+            },
+            'progesterona': {
+                title: 'Progesterona',
+                code: 'HOR-006',
+                icon: 'fa-baby-carriage', // Relacionado a mantener el embarazo
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. Se suele medir el día 21 del ciclo.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Es la hormona que "confirma la ovulación" y sostiene el embarazo en sus primeras semanas. Si está baja, puede haber problemas para quedar embarazada o riesgos de pérdida.'
+            },
+            'prolactina': {
+                title: 'Prolactina',
+                code: 'HOR-007',
+                icon: 'fa-person-breastfeeding', // Lactancia
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 2-4 horas. IMPORTANTE: Haber despertado al menos 2 horas antes y llegar relajado (el estrés la sube).',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Hormona encargada de la producción de leche. Si está alta fuera del embarazo (Hiperprolactinemia), causa falta de menstruación, infertilidad y salida de leche. El estrés o medicamentos pueden elevarla falsamente.'
+            },
+            'testosterona': {
+                title: 'Testosterona Total',
+                code: 'HOR-008',
+                icon: 'fa-mars', // Símbolo masculino
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Se recomienda tomar la muestra antes de las 10:00 AM (ritmo circadiano).',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Principal hormona masculina, pero también vital en mujeres (libido/energía). En hombres evalúa disfunción eréctil. En mujeres, si está alta, se asocia a Ovarios Poliquísticos (SOP), acné o exceso de vello.'
+            },
+            'cortisol': {
+                title: 'Cortisol AM (Matutino)',
+                code: 'HOR-009',
+                icon: 'fa-brain', // Estrés / Cerebro
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno de 8 horas. TOMA EXACTA: Entre 7:00 AM y 9:00 AM. El paciente debe estar tranquilo antes de la toma.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'La "hormona del estrés". Sus niveles son más altos al despertar. Se usa para diagnosticar Síndrome de Cushing (exceso) o enfermedad de Addison (falta). El estrés del pinchazo puede elevarla, por eso se requiere calma.'
+            },
+            // --- MARCADORES TUMORALES ---
+            'psa': {
+                title: 'Antígeno Prostático (PSA Total y Libre)',
+                code: 'INM-012',
+                icon: 'fa-mars-stroke', // Salud masculina
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'Ayuno deseable. IMPORTANTE: Abstinencia sexual de 3 días. No haber montado bicicleta o caballo, ni haber tenido tacto rectal 48h antes.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Es la prueba reina para la salud masculina. Detecta problemas en la PRÓSTATA, desde inflamaciones (prostatitis) y crecimiento benigno, hasta Cáncer de Próstata. Todo hombre mayor de 40 años debe hacérselo anualmente.'
+            },
+            'cea': {
+                title: 'CEA (Antígeno Carcinoembrionario)',
+                code: 'INM-013',
+                icon: 'fa-chart-area', // Monitorización
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno estricto. Fumadores pueden tener valores ligeramente altos.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Marcador general asociado principalmente al Cáncer de Colon y del aparato digestivo. No sirve para diagnosticar por sí solo, sino para MONITORIZAR si el tratamiento está funcionando o si el cáncer ha regresado (recidiva).'
+            },
+            'afp': {
+                title: 'Alfafetoproteína (AFP)',
+                code: 'INM-014',
+                icon: 'fa-baby', // Feto (porque también se usa en embarazo)
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Tiene dos usos: 1) En adultos: Marcador de Cáncer de Hígado o Testículo. 2) En embarazadas: Detecta riesgo de malformaciones en el tubo neural del bebé (espina bífida).'
+            },
+            'ca125': {
+                title: 'CA-125 (Ovario)',
+                code: 'INM-015',
+                icon: 'fa-venus', // Femenino
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno. Evitar durante la menstruación (puede elevarse falsamente).',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Marcador tumoral asociado principalmente al Cáncer de Ovario. También puede elevarse en endometriosis o miomas. Es vital para el seguimiento de pacientes en tratamiento.'
+            },
+            'ca153': {
+                title: 'CA 15-3 (Mama)',
+                code: 'INM-016',
+                icon: 'fa-ribbon', // Lazo rosa
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Marcador utilizado para el seguimiento del Cáncer de Mama. Ayuda a detectar si hay metástasis o si la enfermedad ha vuelto después del tratamiento. No se usa para diagnóstico inicial (para eso es la mamografía).'
+            },
+            'ca199': {
+                title: 'CA 19-9 (Páncreas/Vías Biliares)',
+                code: 'INM-017',
+                icon: 'fa-dna',
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (CLIA)',
+                desc: 'Marcador asociado al Cáncer de Páncreas, Vesícula y Vías Biliares. También puede elevarse en pancreatitis o cirrosis.'
+            },
+
+    // --- TORCH Y ESPECIALES ---
+            'torch': { // Agrupamos Toxoplasma, CMV, Herpes y Rubeola en una ficha general o individuales
+                title: 'Perfil TORCH (Embarazo)',
+                code: 'INM-018',
+                icon: 'fa-baby-carriage', // Protección al bebé
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '3 mL',
+                time: '2 - 4 Horas',
+                method: 'Quimioluminiscencia (IgM e IgG)',
+                desc: 'Conjunto de exámenes OBLIGATORIOS en el embarazo. Detecta infecciones que la madre puede transmitir al feto: Toxoplasma (gatos), Rubeola, Citomegalovirus y Herpes. Se mide IgG (memoria) e IgM (infección activa).'
+            },
+            'equinococo': {
+                title: 'Equinococosis (Hidatidosis)',
+                code: 'INM-019',
+                icon: 'fa-dog', // Transmitido por perros
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '24 Horas (ELISA) / 2-3 días (Western Blot)',
+                method: 'Hemaglutinación / ELISA / Western Blot',
+                desc: 'Detecta anticuerpos contra el parásito que causa el QUISTE HIDATÍDICO (bolsas de agua en hígado o pulmón). Es una enfermedad común en zonas ganaderas, transmitida por el contacto con perros infectados.'
+            },
+            'westernblot': {
+                title: 'Western Blot (Prueba Confirmatoria)',
+                code: 'INM-020',
+                icon: 'fa-check-double', // Doble chequeo / Confirmación
+                sample: 'Suero Sanguíneo',
+                tube: 'Tubo Rojo o Amarillo (Gel Separador)',
+                tubeColor: '#e74c3c', // Rojo
+                prep: 'No requiere ayuno.',
+                volume: '2 mL',
+                time: '2 - 4 Días',
+                method: 'Inmunoblot',
+                desc: 'Es la prueba "Juez Supremo". Se utiliza cuando una prueba de tamizaje (como el ELISA para VIH o Hidatidosis) sale positiva. El Western Blot desglosa las proteínas específicas del virus/parásito para confirmar al 100% si el diagnóstico es real o fue una falsa alarma.'
+            },
+            // --- ORINA Y RENAL ---
+            'orina': {
+                title: 'Examen Completo de Orina (ECO)',
+                code: 'MIC-001',
+                icon: 'fa-vial',
+                sample: 'Orina (Chorro medio)',
+                tube: 'Frasco Estéril',
+                tubeColor: '#f1c40f', // Amarillo
+                prep: 'Primera orina de la mañana recomendada. Aseo previo de genitales (sin jabón íntimo, solo agua).',
+                volume: '10 - 20 mL',
+                time: '1 - 2 Horas',
+                method: 'Tira Reactiva + Microscopía de Sedimento',
+                desc: 'El examen más básico y útil. Evalúa tres cosas: 1) Física (color/densidad), 2) Química (Glucosa, pH, Proteínas) y 3) Microscópica (Bacterias, Leucocitos, Cristales). Detecta desde infecciones urinarias hasta diabetes o piedras en el riñón.'
+            },
+            'orina24h': {
+                title: 'Proteínas y Creatinina (Orina 24h)',
+                code: 'MIC-002',
+                icon: 'fa-jar', // Frasco grande
+                sample: 'Orina de 24 Horas',
+                tube: 'Galonera limpia',
+                tubeColor: '#f39c12', // Naranja
+                prep: 'Descartar la primera orina de la mañana del día 1 y recolectar TODAS las siguientes hasta la primera del día 2 inclusive. Mantener refrigerado.',
+                volume: 'Volumen total',
+                time: '2 Horas',
+                method: 'Colorimétrico',
+                desc: 'Cuantifica la pérdida exacta de proteínas (Proteinuria) y la filtración renal (Depuración). Es vital para el seguimiento de Preeclampsia en embarazadas y Nefropatía Diabética.'
+            },
+
+    // --- TINCIONES Y DIRECTOS ---
+            'bk': {
+                title: 'Baciloscopia (BK - Esputo)',
+                code: 'MIC-003',
+                icon: 'fa-lungs', // Pulmones
+                sample: 'Esputo (Flema)',
+                tube: 'Frasco de boca ancha',
+                tubeColor: '#ffffff', // Transparente
+                prep: 'Muestra en ayunas. Enjuagarse la boca solo con agua antes de toser. El paciente debe expectorar "desde el pecho", no saliva.',
+                volume: '3 - 5 mL',
+                time: '2 Horas',
+                method: 'Tinción Ziehl-Neelsen',
+                desc: 'Prueba fundamental para el diagnóstico de TUBERCULOSIS. Busca el Bacilo de Koch en los pulmones. En nuestra zona andina es un examen de vigilancia obligatoria ante tos por más de 15 días.'
+            },
+            'gram': {
+                title: 'Tinción Gram (Secreciones)',
+                code: 'MIC-004',
+                icon: 'fa-bacterium',
+                sample: 'Secreción (Herida, Uretral, Faríngea, etc.)',
+                tube: 'Lámina portaobjetos / Hisopo',
+                tubeColor: '#bdc3c7', // Gris
+                prep: 'No requiere ayuno. No usar cremas ni antibióticos locales antes de la toma.',
+                volume: 'Hisopado',
+                time: '1 Hora',
+                method: 'Microscopía (Tinción Gram)',
+                desc: 'Permite ver "al instante" qué tipo de bacteria está causando la infección (Cocos, Bacilos, Gram Positivos o Negativos). Ayuda al médico a elegir el antibiótico empírico antes de que salga el cultivo.'
+            },
+            'directos': {
+                title: 'Examen Directo (KOH / Ácaros / Tinta China)',
+                code: 'MIC-005',
+                icon: 'fa-magnifying-glass',
+                sample: 'Escamas de piel, Uñas, Pelo o LCR',
+                tube: 'Placa Petri / Lámina',
+                tubeColor: '#ffffff', // Transparente
+                prep: 'Para Hongos/Ácaros: No usar cremas antimicóticas 3 días antes.',
+                volume: 'Raspado',
+                time: '1 Hora',
+                method: 'Microscopía Directa (KOH 10-40%)',
+                desc: 'Busca visualmente al agresor: Hongos (Hifas/Esporas) en piel y uñas, Ácaros (Sarna) o el hongo Cryptococcus (Tinta China) en líquido cefalorraquídeo. Es rápido y efectivo.'
+            },
+
+    // --- CULTIVOS ---
+            'urocultivo': {
+                title: 'Urocultivo + Antibiograma',
+                code: 'MIC-006',
+                icon: 'fa-petri-dish', // Placa de cultivo (si no carga, usa fa-circle)
+                sample: 'Orina (Chorro medio estéril)',
+                tube: 'Frasco Estéril',
+                tubeColor: '#f1c40f', // Amarillo
+                prep: 'Aseo genital riguroso. NO estar tomando antibióticos (o suspenderlos 3 días antes).',
+                volume: '10 - 20 mL',
+                time: '3 Días (Preliminar a las 24h)',
+                method: 'Cultivo en Agar / Automático',
+                desc: 'Es el "Gold Standard" para Infección Urinaria. No solo nos dice qué bacteria es, sino que incluye el ANTIBIOGRAMA: una lista de qué antibióticos matan a la bacteria y a cuáles es resistente.'
+            },
+            'coprocultivo': {
+                title: 'Coprocultivo',
+                code: 'MIC-007',
+                icon: 'fa-poop',
+                sample: 'Heces frescas',
+                tube: 'Frasco Estéril',
+                tubeColor: '#e67e22', // Marrón
+                prep: 'Muestra fresca. No antibióticos previos.',
+                volume: 'Muestra significativa',
+                time: '3 - 4 Días',
+                method: 'Cultivo selectivo (Salmonella/Shigella/Campylobacter)',
+                desc: 'Busca bacterias agresivas que causan diarreas severas, como Salmonella o Shigella. No se pide en diarreas comunes, sino en aquellas con fiebre alta, sangre o que no curan.'
+            },
+            'hemocultivo': {
+                title: 'Hemocultivo (Seriado/Simple)',
+                code: 'MIC-008',
+                icon: 'fa-syringe',
+                sample: 'Sangre Total',
+                tube: 'Frasco de Hemocultivo (Aerobio/Anaerobio)',
+                tubeColor: '#ffffff', // Varía
+                prep: 'Se toma preferentemente durante el pico de fiebre. Asepsia estricta del brazo.',
+                volume: '5 - 10 mL (Adultos)',
+                time: '5 - 7 Días (Alertas automáticas)',
+                method: 'Automatizado / Manual',
+                desc: 'Busca bacterias circulando en la sangre (Bacteriemia/Sepsis). Es un examen crítico en pacientes hospitalizados. Se suelen tomar 2 o 3 muestras seriadas para asegurar el diagnóstico.'
+            },
+            'cultivosvarios': { // Agrupa Secreciones y Líquidos
+                title: 'Cultivo de Secreciones y Líquidos',
+                code: 'MIC-009',
+                icon: 'fa-vial-virus',
+                sample: 'Heridas, Faríngeo, Vaginal, Uretral, Líquidos',
+                tube: 'Hisopo con medio de transporte (Stuart)',
+                tubeColor: '#3498db', // Celeste
+                prep: 'Sin antibióticos previos. Toma directa del sitio de infección.',
+                volume: 'Hisopado / 2 mL',
+                time: '3 Días',
+                method: 'Cultivo / Antibiograma',
+                desc: 'Identifica el germen causante de infecciones en heridas, garganta (Streptococcus), genitales o líquidos corporales. Incluye siempre el antibiograma para dirigir el tratamiento.'
+            },
+            'cultivohongos': {
+                title: 'Cultivo de Hongos (Micótico)',
+                code: 'MIC-013',
+                icon: 'fa-icicles', // O fa-bacterium si prefieres
+                sample: 'Escamas de piel, Uñas, Pelo',
+                tube: 'Placa Petri / Tubo de ensayo',
+                tubeColor: '#ffffff', // Transparente
+                prep: 'NO usar cremas, esmaltes ni talcos en la zona afectada 3 días antes de la toma.',
+                volume: 'Raspado suficiente',
+                time: '15 - 30 Días',
+                method: 'Cultivo en Agar Sabouraud',
+                desc: 'Es un cultivo especial de larga duración para detectar hongos que crecen lento (Dermatofitos). Es la única forma de saber con exactitud qué tipo de hongo está afectando la uña o piel para recetar el antimicótico exacto.'
+            },
+
+    // --- HECES Y PARASITOLOGÍA ---
+            'parasitologico': {
+                title: 'Parasitológico (Simple / Seriado)',
+                code: 'MIC-010',
+                icon: 'fa-worm', // Gusano
+                sample: 'Heces',
+                tube: 'Frasco limpio (con formol si es seriado)',
+                tubeColor: '#e67e22', // Marrón
+                prep: 'No usar laxantes aceitosos. Si es seriado, tomar muestras 3 días alternos.',
+                volume: 'Nuez',
+                time: '2 - 4 Horas',
+                method: 'Microscopía Directa / Sedimentación',
+                desc: 'Busca parásitos intestinales: Quistes (Amebas, Giardia) o Huevos/Larvas (Helmintos). El seriado aumenta la probabilidad de encontrar al parásito si la carga es baja.'
+            },
+            'thevenon': {
+                title: 'Sangre Oculta en Heces (Thevenon)',
+                code: 'MIC-011',
+                icon: 'fa-droplet', // Sangre
+                sample: 'Heces',
+                tube: 'Frasco limpio',
+                tubeColor: '#e67e22', // Marrón
+                prep: 'DIETA ESTRICTA 3 DÍAS ANTES: No carnes rojas, no embutidos, no betarraga, no rábanos, no medicamentos con hierro o aspirina.',
+                volume: 'Nuez',
+                time: '2 Horas',
+                method: 'Cromatográfico / Guayaco',
+                desc: 'Detecta sangrados digestivos que no se ven a simple vista. Útil para buscar úlceras, pólipos o como tamizaje preventivo de Cáncer de Colon en mayores de 50 años.'
+            },
+            'hecesespeciales': { // Agrupa Rotavirus, Adenovirus, Coccidios, Funcional
+                title: 'Heces Especiales (Virus y Funcional)',
+                code: 'MIC-012',
+                icon: 'fa-child', // Niño (común en pediatría)
+                sample: 'Heces frescas (Diarreicas para virus)',
+                tube: 'Frasco limpio',
+                tubeColor: '#e67e22', // Marrón
+                prep: 'Muestra fresca (menos de 2 horas para virus).',
+                volume: 'Líquida / Nuez',
+                time: '2 Horas',
+                method: 'Inmunocromatografía / Tinciones (Kinyoun)',
+                desc: 'Panel avanzado para diarreas. Incluye Rotavirus/Adenovirus (virus comunes en niños), Coccidios (Cryptosporidium en inmunosuprimidos) y Coprológico Funcional (pH, azúcares reductores) para ver si hay mala digestión/intolerancia.'
+            }
+            // PUEDES AGREGAR MÁS EXÁMENES COPIANDO Y PEGANDO LOS BLOQUES DE ARRIBA
+        };
+
+        // Lógica para leer qué examen se pidió y mostrarlo
+        function loadExamDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const examId = params.get('id'); // Obtiene el id de la URL (ej. ?id=hemograma)
+
+            if (examId && examsDB[examId]) {
+                const data = examsDB[examId];
+                
+                // Rellenar el HTML con los datos
+                document.getElementById('exam-title').innerText = data.title;
+                document.getElementById('exam-code').innerText = data.code;
+                document.getElementById('exam-sample').innerText = data.sample;
+                document.getElementById('exam-tube').innerHTML = `<span class="tube-color-circle" style="background-color: ${data.tubeColor}"></span> ${data.tube}`;
+                document.getElementById('exam-prep').innerText = data.prep;
+                document.getElementById('exam-volume').innerText = data.volume;
+                document.getElementById('exam-time').innerText = data.time;
+                document.getElementById('exam-method').innerText = data.method;
+                document.getElementById('exam-desc').innerText = data.desc;
+                
+                // Cambiar icono
+                document.getElementById('exam-icon').className = `fa-solid ${data.icon}`;
+            } else {
+                document.getElementById('exam-title').innerText = "Examen no encontrado";
+                document.getElementById('exam-desc').innerText = "Lo sentimos, no tenemos información para este código.";
+            }
+        }
+
+        // Ejecutar al cargar la página
+        window.onload = loadExamDetails;
+    </script>
+</body>
+</html>
