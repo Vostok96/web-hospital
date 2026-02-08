@@ -500,4 +500,158 @@ ul li {
     color: #00509e;        /* Se pone azulito al pasar el mouse para indicar que es clicable */
     font-weight: 700;      /* Se pone un poquito más grueso */
 }
+/* --- ESTILOS ESPECÍFICOS PARA EL MENÚ PRINCIPAL (HOME) --- */
 
+.home-overlay {
+    justify-content: center; /* Centra todo verticalmente */
+}
+
+.menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.menu-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 20px;
+    width: 300px; /* Ancho fijo para uniformidad */
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto Hover: Levantar y Brillar */
+.menu-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    background: white;
+}
+
+/* Iconos grandes */
+.icon-wrapper {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+}
+
+.menu-card:hover .icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Colores específicos por área */
+.card-lab .icon-wrapper { color: #00509e; }
+.card-blood .icon-wrapper { color: #c0392b; }
+.card-patho .icon-wrapper { color: #8e44ad; }
+
+.menu-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #003366;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.menu-card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+/* Botón simulado dentro de la tarjeta */
+.btn-action {
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+}
+
+/* Estilo botón activo */
+.card-lab .btn-action {
+    background: #00509e;
+    color: white;
+}
+
+/* Estilo botón inactivo (Próximamente) */
+.coming-soon {
+    background: #e0e0e0;
+    color: #888;
+}
+
+.main-footer {
+    margin-top: 50px;
+    color: white;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Responsive para celulares */
+@media (max-width: 768px) {
+    .menu-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .menu-card {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+/* --- FIRMA DEL DESARROLLADOR --- */
+.dev-signature {
+    font-size: 0.75rem;     /* Letra más pequeña que el copyright */
+    margin-top: 8px;        /* Un poco de espacio arriba */
+    opacity: 0.6;           /* Transparente al 60% (Sutil) */
+    font-weight: 300;       /* Letra fina */
+    letter-spacing: 1px;    /* Espaciado elegante */
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+/* Efecto al pasar el mouse: Se vuelve blanco sólido y brilla */
+.dev-signature:hover {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px); /* Se levanta un poquito */
+}
+/* --- FIRMA DEL DESARROLLADOR --- */
+.dev-signature {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+    cursor: default;
+    color: white; /* Aseguramos que se vea sobre el fondo */
+}
+
+.dev-signature:hover {
+    opacity: 1;
+}
+
+/* El cursor parpadeante */
+.blink {
+    display: inline-block;
+    animation: cursor-blink 1s step-end infinite;
+    margin-left: 2px;
+    font-weight: 700;
+    color: #4cd137; /* Un verde terminal o déjalo blanco */
+}
+
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
