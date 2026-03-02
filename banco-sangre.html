@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco de Sangre - Hospital Víctor Ramos Guardia</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="logo-hospital.png" type="image/png">
+    <style>
+        /* Estilos adicionales específicos para el Banco de Sangre */
+        .blood-header {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%) !important;
+        }
+        .blood-title { color: #c0392b !important; }
+        
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+        .req-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0,0,0,0.03);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #c0392b;
+        }
+        .req-item i { font-size: 1.8rem; color: #c0392b; }
+        .req-item p { font-size: 0.95rem; font-weight: bold; margin: 0; color: #333;}
+        .req-item span { display: block; font-size: 0.8rem; font-weight: normal; color: #666;}
+
+        .myth-truth-container { padding: 20px; }
+        .myth-box {
+            display: flex;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .myth { background: #555; color: white; padding: 15px; flex: 1; font-weight: bold; display:flex; align-items:center; gap: 10px;}
+        .truth { background: #2ecc71; color: white; padding: 15px; flex: 1; font-weight: bold; display:flex; align-items:center; gap: 10px;}
+        
+        @media (max-width: 768px) {
+            .myth-box { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="btn-volver" style="z-index: 10001;">
+        <i class="fa-solid fa-house"></i> Ir al Inicio
+    </a>
+    
+    <div id="intro-loader">
+        <img src="logo-minsa.png" alt="Logo MINSA" class="intro-logo">
+        <div class="intro-content">
+            <h1>HOSPITAL VÍCTOR RAMOS GUARDIA</h1>
+            <h2>HUARAZ - PERÚ</h2>
+            <div class="dept-title-intro" style="background: rgba(192, 57, 43, 0.8);">BANCO DE SANGRE Y HEMOTERAPIA</div>
+            <div class="spinner"></div> 
+        </div>
+    </div>
+
+    <div class="overlay">
+       <header>
+        <div class="header-branding">
+            <img src="logo-hospital.png" alt="Logo HVRG" class="header-logo">
+            <div class="header-text-block">
+                <h1>HOSPITAL VÍCTOR RAMOS GUARDIA</h1>
+                <h2>HUARAZ - PERÚ</h2>
+            </div>
+        </div>
+        <div class="dept-title" style="color: #c0392b;">BANCO DE SANGRE Y HEMOTERAPIA</div>
+        </header>
+
+        <div style="max-width: 900px; width: 100%; text-align: center; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 20px 30px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.5); margin: 0 auto 30px auto;">
+            <p style="font-size: 1.1rem; line-height: 1.6; color: #333; font-weight: 500; margin: 0;">
+                <i class="fa-solid fa-droplet" style="color: #c0392b; margin-right: 5px;"></i>
+                Donar sangre es un acto de solidaridad y altruismo. Una sola donación puede salvar hasta <strong style="color: #c0392b;">3 vidas</strong> al separar la sangre en glóbulos rojos, plasma y plaquetas. A continuación, te orientamos sobre nuestros servicios y el proceso de donación.
+            </p>
+        </div>
+
+        <div style="max-width: 1200px; width: 100%; margin: 0 auto 30px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            
+            <div style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); padding: 25px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);">
+                <h4 style="color: #c0392b; margin-bottom: 15px; font-size: 1.2rem;"><i class="fa-solid fa-layer-group"></i> ¿Qué obtenemos de tu donación?</h4>
+                <p style="font-size: 0.95rem; color: #444; margin-bottom: 10px;">La sangre es un tejido que recorre el organismo transportando células y todos los elementos necesarios para la vida, tales como respirar, alimentarse, eliminar sustancias de desechos y otros.</p>
+                <p style="font-size: 0.95rem; color: #444; margin-bottom: 15px;">Mucha gente cree que se dona un solo elemento, pero gracias al uso de técnicas especiales, de <strong>una sola bolsa de sangre</strong> se obtiene:</p>
+                <ul style="padding: 0; margin-left: 20px; color: #c0392b; font-weight: bold; font-size: 0.95rem;">
+                    <li style="padding: 8px 0; border: none; display: flex; justify-content: flex-start; gap: 10px;"><i class="fa-solid fa-check"></i> Glóbulos rojos</li>
+                    <li style="padding: 8px 0; border: none; display: flex; justify-content: flex-start; gap: 10px;"><i class="fa-solid fa-check"></i> Plasma</li>
+                    <li style="padding: 8px 0; border: none; display: flex; justify-content: flex-start; gap: 10px;"><i class="fa-solid fa-check"></i> Plaquetas</li>
+                    <li style="padding: 8px 0; border: none; display: flex; justify-content: flex-start; gap: 10px;"><i class="fa-solid fa-check"></i> Factores de coagulación</li>
+                </ul>
+                <p style="font-size: 0.85rem; color: #666; margin-top: 10px; font-style: italic;">*Todos estos componentes son usados para el tratamiento de diversas enfermedades. ¡Con una sola donación salvas hasta 4 vidas!</p>
+            </div>
+
+            <div style="background: rgba(255, 240, 240, 0.85); backdrop-filter: blur(10px); border: 1px solid rgba(231, 76, 60, 0.3); border-left: 6px solid #e74c3c; padding: 25px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 2.5rem; color: #e74c3c;"></i>
+                    <h4 style="color: #c0392b; font-size: 1.2rem; margin: 0;">LA SANGRE NO TIENE PRECIO</h4>
+                </div>
+                <p style="font-size: 0.95rem; color: #333; line-height: 1.5;">La sangre se consigue mediante la donación de sangre, que es un acto de dar sangre en forma voluntaria, solidaria y sin recibir pago.</p>
+                <p style="font-size: 0.95rem; color: #c0392b; font-weight: bold; margin-top: 10px;">Comprar o vender sangre es un DELITO PENAL y un grave riesgo para la salud pública.</p>
+                <p style="font-size: 0.85rem; color: #555; margin-top: 10px;">El donante remunerado suele ocultar información sobre sus antecedentes médicos por necesidad económica, poniendo en riesgo letal al paciente que recibe la transfusión. Si alguien te cobra o te exige dinero por unidades de sangre, <strong>denúncialo inmediatamente</strong> a la jefatura del hospital.</p>
+            </div>
+        </div>
+
+        <div class="container" style="max-width: 1200px;">
+            
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-header blood-header">
+                    <i class="fa-solid fa-hand-holding-medical"></i>
+                    <h3>NUESTROS SERVICIOS</h3>
+                </div>
+                <div style="padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-top: 4px solid #c0392b;">
+                        <h4 class="blood-title" style="margin-bottom: 10px;"><i class="fa-solid fa-droplet"></i> Donación de Sangre</h4>
+                        <p style="font-size: 0.9rem; color: #555;">Atendemos donaciones <strong>Voluntarias</strong> (para ayudar a quien lo necesite) y por <strong>Reposición</strong> (cuando un familiar requiere unidades). El proceso es seguro, estéril y guiado por nuestro personal.</p>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-top: 4px solid #3498db;">
+                        <h4 style="color: #3498db; margin-bottom: 10px;"><i class="fa-solid fa-vials"></i> Pruebas de Compatibilidad</h4>
+                        <p style="font-size: 0.9rem; color: #555;">Antes de cualquier transfusión, realizamos pruebas cruzadas exhaustivas entre la sangre del donante y la del paciente. Esto garantiza que la transfusión sea 100% segura y compatible.</p>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-top: 4px solid #8e44ad;">
+                        <h4 style="color: #8e44ad; margin-bottom: 10px;"><i class="fa-solid fa-bed-pulse"></i> Sangría Terapéutica</h4>
+                        <p style="font-size: 0.9rem; color: #555;">Procedimiento médico prescrito para pacientes con exceso de hierro o glóbulos rojos (Ej: Policitemia Vera). Consiste en la extracción controlada de sangre para aliviar los síntomas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-header blood-header">
+                    <i class="fa-solid fa-clipboard-user"></i>
+                    <h3>REQUISITOS PARA DONAR</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; padding: 20px;">
+                    <div class="req-item">
+                        <i class="fa-solid fa-id-card"></i>
+                        <div><p>Identificación</p><span>Presentar DNI o Carné de Extranjería físico.</span></div>
+                    </div>
+                    <div class="req-item">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <div><p>Edad</p><span>Tener entre 18 y 60 años.</span></div>
+                    </div>
+                    <div class="req-item">
+                        <i class="fa-solid fa-weight-scale"></i>
+                        <div><p>Peso Mínimo</p><span>Pesar más de 50 Kg. Talla min. 1.50m.</span></div>
+                    </div>
+                    <div class="req-item">
+                        <i class="fa-solid fa-heart-circle-check"></i>
+                        <div><p>Buena Salud</p><span>Sentirse bien. No estar tomando antibióticos.</span></div>
+                    </div>
+                    <div class="req-item">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <div><p>Frecuencia</p><span>Hombres: Cada 3 meses.<br>Mujeres: Cada 4 meses.</span></div>
+                    </div>
+                    <div class="req-item">
+                        <i class="fa-solid fa-pen-nib"></i>
+                        <div><p>Tatuajes / Cirugías</p><span>Debe haber pasado 1 año.</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
+                
+                <div class="card" style="display: flex; flex-direction: column; height: 100%;">
+                    <div class="card-header" style="background: #333;">
+                        <i class="fa-solid fa-ban"></i>
+                        <h3>NO PUEDEN DONAR</h3>
+                    </div>
+                    <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <p style="font-size: 0.95rem; color: #444; margin-bottom: 20px;">Para garantizar la absoluta seguridad del paciente que recibirá la transfusión, la normativa establece que <strong>NO pueden donar</strong>:</p>
+                            
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                                <span style="background: #eee; padding: 8px 12px; border-radius: 50px; font-size: 0.85rem; color: #333;"><i class="fa-solid fa-virus" style="color: #e74c3c;"></i> VIH, Hepatitis, Malaria</span>
+                                <span style="background: #eee; padding: 8px 12px; border-radius: 50px; font-size: 0.85rem; color: #333;"><i class="fa-solid fa-syringe" style="color: #e74c3c;"></i> Drogadictos</span>
+                                <span style="background: #eee; padding: 8px 12px; border-radius: 50px; font-size: 0.85rem; color: #333;"><i class="fa-solid fa-user-shield" style="color: #e74c3c;"></i> Trabajadores sexuales</span>
+                                <span style="background: #eee; padding: 8px 12px; border-radius: 50px; font-size: 0.85rem; color: #333;"><i class="fa-solid fa-bed" style="color: #e74c3c;"></i> Relaciones de riesgo</span>
+                                <span style="background: #eee; padding: 8px 12px; border-radius: 50px; font-size: 0.85rem; color: #333;"><i class="fa-solid fa-pen-nib" style="color: #e74c3c;"></i> Tatuajes recientes</span>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(52, 152, 219, 0.1); border-left: 4px solid #3498db; padding: 15px; border-radius: 5px;">
+                            <h4 style="color: #00509e; margin-bottom: 8px; font-size: 0.95rem;"><i class="fa-solid fa-circle-info"></i> No es discriminación</h4>
+                            <p style="font-size: 0.85rem; color: #555; line-height: 1.5; margin: 0;">
+                                Las restricciones se basan en el <strong>"Periodo Ventana"</strong>: el tiempo que tarda un virus en ser detectable por los equipos después del contagio. La honestidad en la entrevista salva vidas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="display: flex; flex-direction: column; height: 100%;">
+                    <div class="card-header" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                        <h3>¿POR QUÉ DONAR?</h3>
+                    </div>
+                    <div style="padding: 30px 20px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <i class="fa-solid fa-hand-holding-heart" style="font-size: 3.5rem; color: #e74c3c; margin-bottom: 20px;"></i>
+                        <p style="font-size: 1.1rem; color: #333; margin-bottom: 15px; line-height: 1.5; text-transform: uppercase; font-weight: 900;">¡Está en tu sangre salvar vidas!</p>
+                        <p style="font-size: 0.95rem; color: #555; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; width: 80%;">Porque una sola bolsa de sangre permite salvar de <strong>3 a 4 vidas</strong>.</p>
+                        <p style="font-size: 0.95rem; color: #555; font-style: italic;">"Porque mañana a lo mejor le hace falta a uno de los tuyos, o a ti mismo."</p>
+                    </div>
+                </div>
+
+            </div> ```
+
+
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-header" style="background: linear-gradient(135deg, #2c3e50 0%, #000000 100%);">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <h3>MITOS Y VERDADES</h3>
+                </div>
+                <div class="myth-truth-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    
+                    <div class="myth-box" style="margin: 0; flex-direction: column;">
+                        <div class="myth"><i class="fa-solid fa-xmark"></i> Si dono sangre podría engordar o debilitarme.</div>
+                        <div class="truth"><i class="fa-solid fa-check"></i> No hay relación con el peso. El volumen de sangre se repone en pocas horas.</div>
+                    </div>
+                    
+                    <div class="myth-box" style="margin: 0; flex-direction: column;">
+                        <div class="myth"><i class="fa-solid fa-xmark"></i> La extracción de sangre duele mucho y demora.</div>
+                        <div class="truth"><i class="fa-solid fa-check"></i> Solo sentirás un leve pinchazo. La extracción toma apenas de 7 a 10 minutos.</div>
+                    </div>
+
+                    <div class="myth-box" style="margin: 0; flex-direction: column;">
+                        <div class="myth"><i class="fa-solid fa-xmark"></i> Si tengo tatuajes o piercings ya no puedo donar nunca.</div>
+                        <div class="truth"><i class="fa-solid fa-check"></i> Sí puedes donar, siempre y cuando haya pasado 1 año desde que te lo hiciste.</div>
+                    </div>
+
+                    <div class="myth-box" style="margin: 0; flex-direction: column;">
+                        <div class="myth"><i class="fa-solid fa-xmark"></i> Las mujeres no pueden donar si están con su regla (menstruación).</div>
+                        <div class="truth"><i class="fa-solid fa-check"></i> Falso. Sí puedes donar, siempre y cuando te sientas bien y tu nivel de hemoglobina (evaluado en el triaje) sea el adecuado.</div>
+                    </div>
+                    <div class="myth-box" style="margin: 0; flex-direction: column;">
+                        <div class="myth"><i class="fa-solid fa-xmark"></i> Me puedo contagiar de alguna enfermedad al donar sangre.</div>
+                        <div class="truth"><i class="fa-solid fa-check"></i> Falso. Todo el material utilizado (agujas, bolsas) es nuevo, estéril y de un solo uso. Es imposible contagiarse.</div>
+                    </div>
+
+                    <div class="myth-box" style="margin: 0; flex-direction: column;">
+                        <div class="myth"><i class="fa-solid fa-xmark"></i> Si tengo hipertensión o diabetes no puedo donar.</div>
+                        <div class="truth"><i class="fa-solid fa-check"></i> Falso. Si tu presión o diabetes están controladas con pastillas (sin insulina), sí puedes donar previa evaluación en triaje.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <div class="footer-info">
+            <div class="info-box">
+                <h4 style="color: #c0392b; border-color: #c0392b;"><i class="fa-solid fa-list-check"></i> EL PROCESO</h4>
+                <p>1. <strong>Registro:</strong> Ingreso de datos con DNI.</p>
+                <p>2. <strong>Triaje:</strong> Toma de presión, peso y hemoglobina (para descartar anemia).</p>
+                <p>3. <strong>Entrevista:</strong> Cuestionario médico confidencial y firma del Consentimiento Informado legal.</p>
+                <p>4. <strong>Extracción:</strong> Procedimiento rápido (10 min).</p>
+                <p>5. <strong>Reposo:</strong> Te brindaremos un refrigerio.</p>
+            </div>
+            <div class="info-box">
+                <h4 style="color: #c0392b; border-color: #c0392b;"><i class="fa-regular fa-clock"></i> HORARIO DE DONACIÓN</h4>
+                <p style="margin-bottom: 10px;"><strong>Lunes a Sábado:</strong></p>
+                <p>Mañanas: 7:00 am — 11:00 am</p>
+                
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc;">
+                    <p style="font-size: 0.9rem; color: #c0392b; font-weight: bold; margin-bottom: 5px;">
+                        <i class="fa-solid fa-mug-hot"></i> IMPORTANTE: SOBRE EL DESAYUNO
+                    </p>
+                    <p style="font-size: 0.85rem; color: #555; line-height: 1.5; margin-bottom: 8px;">
+                        Debe venir tomando un <strong>desayuno ligero</strong> (jugos, mates, té, pan sin mantequilla).
+                    </p>
+                    <p style="font-size: 0.85rem; color: #333; line-height: 1.5; background: #fff0f0; padding: 8px; border-radius: 5px; border-left: 3px solid #e74c3c;">
+                        ❌ <strong>EVITE ESTRICTAMENTE:</strong> Caldos, chicharrones, lácteos (leche/queso), palta o frituras. El exceso de grasa daña la muestra de sangre y nos obligará a desechar su donación.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="main-footer">
+        <p>© 2026 Hospital Víctor Ramos Guardia - Huaraz</p>
+        <p class="dev-signature">
+            <i class="fa-solid fa-code" style="font-size: 0.8em; margin-right: 5px;"></i> 
+            Dev: Denis R.<span class="blink">_</span>
+        </p>
+    </footer>
+
+    <script>
+    window.addEventListener('load', function() {
+        var tiempoFinal = 500; // Por defecto rápido
+        
+        // Si no existe la variable, es la primera vez en toda la web
+        if (!sessionStorage.getItem('visita_realizada')) {
+            tiempoFinal = 2000; 
+            sessionStorage.setItem('visita_realizada', 'si');
+        }
+
+        setTimeout(function() {
+            document.getElementById('intro-loader').classList.add('fade-out');
+        }, tiempoFinal); 
+    });
+    </script>
+</body>
+</html>
