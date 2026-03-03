@@ -7,8 +7,12 @@
 }
 
 body {
-    /* IMPORTANTE: Asegúrate que tu archivo se llame fondo.png */
-    background-image: url('fondo.png'); 
+    /* Color azul de respaldo mientras carga la imagen */
+    background-color: #003366; 
+    
+    /* ¡OJO! Cambia el .png por la nueva extensión (.jpg o .webp) */
+    background-image: url('fondo.webp'); 
+    
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
