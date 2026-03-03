@@ -659,3 +659,43 @@ ul li {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
+
+/* --- PANEL DE FICHAS EPIDEMIOLÓGICAS (TEMA LABORATORIO - AZUL) --- */
+.pdf-container {
+    max-height: 250px; 
+    overflow-y: auto;  
+    padding-right: 10px;
+    margin-top: 15px;
+}
+
+/* Estilizando la barra de scroll (Azul) */
+.pdf-container::-webkit-scrollbar { width: 8px; }
+.pdf-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 10px; }
+.pdf-container::-webkit-scrollbar-thumb { background: rgba(0, 80, 158, 0.5); border-radius: 10px; }
+.pdf-container::-webkit-scrollbar-thumb:hover { background: rgba(0, 80, 158, 0.8); }
+
+/* Botones compactos (Azul) */
+.btn-pdf-compact {
+    background: rgba(255, 255, 255, 0.6);
+    color: #00509e; /* Azul institucional */
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(0, 80, 158, 0.3);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-pdf-compact:hover {
+    background: #00509e; /* Azul sólido al pasar el mouse */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 80, 158, 0.3);
+}
