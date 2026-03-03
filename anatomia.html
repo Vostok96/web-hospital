@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomía Patológica - Hospital Víctor Ramos Guardia</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="logo-hospital.png" type="image/png">
+    <style>
+        /* Paleta Morada para Patología */
+        .patho-header { background: linear-gradient(135deg, #4a235a 0%, #8e44ad 100%) !important; }
+        .patho-title { color: #4a235a !important; }
+        .patho-badge { background: #8e44ad; color: white; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; margin-left: 10px; }
+        
+        .exam-item {
+            background: rgba(255,255,255,0.7);
+            border-left: 5px solid #8e44ad;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .exam-item h4 { color: #333; margin-bottom: 8px; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between; }
+        .exam-item p { color: #555; font-size: 0.9rem; margin-bottom: 5px; line-height: 1.4; }
+        .fixative-alert { color: #c0392b; font-weight: bold; font-size: 0.85rem; margin-top: 8px; display: inline-block; background: #fff0f0; padding: 4px 8px; border-radius: 4px;}
+        .fixative-ok { color: #2980b9; font-weight: bold; font-size: 0.85rem; margin-top: 8px; display: inline-block; background: #ebf5fb; padding: 4px 8px; border-radius: 4px;}
+    </style>
+</head>
+<body>
+    <a href="index.html" class="btn-volver" style="z-index: 10001;">
+        <i class="fa-solid fa-house"></i> Ir al Inicio
+    </a>
+    
+    <div id="intro-loader">
+        <img src="logo-minsa.png" alt="Logo MINSA" class="intro-logo">
+        <div class="intro-content">
+            <h1>HOSPITAL VÍCTOR RAMOS GUARDIA</h1>
+            <h2>HUARAZ - PERÚ</h2>
+            <div class="dept-title-intro" style="background: rgba(74, 35, 90, 0.8);">ANATOMÍA PATOLÓGICA</div>
+            <div class="spinner"></div> 
+        </div>
+    </div>
+
+    <div class="overlay">
+       <header>
+        <div class="header-branding">
+            <img src="logo-hospital.png" alt="Logo HVRG" class="header-logo">
+            <div class="header-text-block">
+                <h1>HOSPITAL VÍCTOR RAMOS GUARDIA</h1>
+                <h2>HUARAZ - PERÚ</h2>
+            </div>
+        </div>
+        <div class="dept-title" style="color: #4a235a;">ANATOMÍA PATOLÓGICA</div>
+        </header>
+
+        <div style="max-width: 900px; width: 100%; text-align: center; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); padding: 20px 30px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.5); margin: 0 auto 30px auto;">
+            <p style="font-size: 1.05rem; line-height: 1.6; color: #333; font-weight: 500; margin: 0;">
+                <i class="fa-solid fa-microscope" style="color: #8e44ad; margin-right: 5px;"></i>
+                El <strong>Departamento de Anatomía Patológica</strong> se encarga del estudio microscópico de células y tejidos extraídos del cuerpo humano. Nuestro objetivo es brindar diagnósticos precisos para la detección temprana de enfermedades, inflamaciones y cáncer.
+            </p>
+        </div>
+
+        <div style="max-width: 1200px; width: 100%; margin: 0 auto 30px auto;">
+            <div style="background: rgba(255, 240, 240, 0.9); backdrop-filter: blur(10px); border-left: 6px solid #e74c3c; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 20px;">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; color: #e74c3c;"></i>
+                <div>
+                    <h4 style="color: #c0392b; font-size: 1.1rem; margin-bottom: 5px;">IMPORTANTE: MEDIO DE FIJACIÓN</h4>
+                    <p style="font-size: 0.95rem; color: #333; margin: 0;">El uso incorrecto del líquido conservador <strong>arruinará la muestra de forma irreversible</strong>. Recuerde: Toda Biopsia/Tejido va en <strong>Formol al 10%</strong>. Toda Citología/PAP/Líquido va fijado en <strong>Alcohol de 96°</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" style="max-width: 1200px; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+            
+            <div class="card" style="display: flex; flex-direction: column;">
+                <div class="card-header patho-header">
+                    <i class="fa-solid fa-scalpel"></i>
+                    <h3>ESTUDIOS HISTOPATOLÓGICOS</h3>
+                </div>
+                <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
+                    
+                    <div class="exam-item">
+                        <h4>Biopsias <span class="patho-badge">10 Días</span></h4>
+                        <p>Estudio de fragmentos de tejido para diagnóstico definitivo.</p>
+                        <p style="font-size: 0.8rem; color: #777;"><strong>Ejemplos comunes:</strong> Cérvix, mama, estómago, intestino delgado, colon, piel, pleura, pulmón, ganglios, etc.</p>
+                        <span class="fixative-alert"><i class="fa-solid fa-flask"></i> Fijación: Formol al 10%</span>
+                    </div>
+
+                    <div class="exam-item">
+                        <h4>Piezas Quirúrgicas <span class="patho-badge">10 Días</span></h4>
+                        <p>Estudio de órganos completos o secciones grandes extirpadas en sala de operaciones.</p>
+                        <p style="font-size: 0.8rem; color: #777;"><strong>Ejemplos comunes:</strong> Apéndice cecal, vesícula biliar, quistes anexiales, útero, intestino, etc.</p>
+                        <span class="fixative-alert"><i class="fa-solid fa-flask"></i> Fijación: Formol al 10%</span>
+                    </div>
+
+                    <div style="background: rgba(142, 68, 173, 0.1); border: 1px dashed #8e44ad; padding: 15px; border-radius: 8px; margin-top: auto;">
+                        <p style="font-size: 0.85rem; color: #555; text-align: center; margin: 0;">
+                            <i class="fa-solid fa-info-circle" style="color: #8e44ad;"></i> Procesamos <strong>cualquier tipo de tejido u órgano</strong> extraído, quedando la solicitud sujeta al criterio clínico del médico tratante.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="display: flex; flex-direction: column;">
+                <div class="card-header" style="background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);">
+                    <i class="fa-solid fa-dna"></i>
+                    <h3>ESTUDIOS DE CITOLOGÍA</h3>
+                </div>
+                <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
+                    
+                    <div class="exam-item" style="border-left-color: #2980b9;">
+                        <h4>PAP Cervicovaginal <span class="patho-badge" style="background: #2980b9;">7-10 Días</span></h4>
+                        <p>Citología exfoliativa para la detección temprana del cáncer de cuello uterino y evaluación de la flora.</p>
+                        <span class="fixative-ok"><i class="fa-solid fa-spray-can"></i> Fijación: Previamente fijado en Alcohol 96°</span>
+                    </div>
+
+                    <div class="exam-item" style="border-left-color: #2980b9;">
+                        <h4>Líquidos Corporales (PAP y Bloque) <span class="patho-badge" style="background: #2980b9;">7-10 Días</span></h4>
+                        <p>Evaluación de células presentes en fluidos para detectar malignidad o inflamación.</p>
+                        <p style="font-size: 0.8rem; color: #777;"><strong>Muestras:</strong> Líquido pleural, ascítico, pericárdico, cefalorraquídeo, etc.</p>
+                        <span class="fixative-ok"><i class="fa-solid fa-spray-can"></i> Fijación: Alcohol 96°</span>
+                    </div>
+
+                    <div class="exam-item" style="border-left-color: #2980b9;">
+                        <h4>Lectura de BAAF <span class="patho-badge" style="background: #2980b9;">7-10 Días</span></h4>
+                        <p>Biopsia por Aspiración con Aguja Fina.</p>
+                        <p style="font-size: 0.8rem; color: #777;"><strong>Muestras:</strong> Tiroides, glándulas salivales, ganglios palpables, mama, etc.</p>
+                        <span class="fixative-ok"><i class="fa-solid fa-spray-can"></i> Fijación: Previamente fijado en Alcohol 96°</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-info">
+            <div class="info-box">
+                <h4 style="color: #4a235a; border-color: #4a235a;"><i class="fa-solid fa-list-check"></i> REQUISITOS DE RECEPCIÓN</h4>
+                <p>1. <strong>Orden Médica:</strong> Debe estar correctamente llenada con letra legible, diagnóstico presuntivo, sello y firma del médico.</p>
+                <p>2. <strong>Identificación:</strong> El frasco debe estar rotulado con el nombre del paciente, DNI y tipo de muestra.</p>
+                <p>3. <strong>Proporción del Fijador:</strong> Para biopsias, el volumen de Formol 10% debe ser 10 a 20 veces mayor que el tamaño de la muestra.</p>
+            </div>
+            <div class="info-box">
+                <h4 style="color: #4a235a; border-color: #4a235a;"><i class="fa-regular fa-clock"></i> HORARIOS Y ENTREGAS</h4>
+                <p><strong>Recepción de Muestras:</strong></p>
+                <p>Lunes a Sábado: 8:00 am — 8:00 pm</p>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ccc;">
+                    <p style="font-size: 0.9rem; color: #333; font-weight: bold; margin-bottom: 5px;">
+                        <i class="fa-solid fa-calendar-check" style="color: #4a235a;"></i> Tiempo Estándar de Resultados:
+                    </p>
+                    <p style="font-size: 0.85rem; color: #555; line-height: 1.5;">
+                        Aproximadamente <strong>10 días laborables</strong> desde la recepción de la muestra. Estudios complejos o que requieran descalcificación pueden tomar más tiempo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="main-footer">
+        <p>© 2026 Hospital Víctor Ramos Guardia - Huaraz</p>
+        <p class="dev-signature">
+            <i class="fa-solid fa-code" style="font-size: 0.8em; margin-right: 5px;"></i> 
+            Dev: Denis R.<span class="blink">_</span>
+        </p>
+    </footer>
+
+    <script>
+    window.addEventListener('load', function() {
+        var tiempoFinal = 500; 
+        if (!sessionStorage.getItem('visita_realizada')) {
+            tiempoFinal = 2000; 
+            sessionStorage.setItem('visita_realizada', 'si');
+        }
+        setTimeout(function() {
+            document.getElementById('intro-loader').classList.add('fade-out');
+        }, tiempoFinal); 
+    });
+    </script>
+</body>
+</html>
