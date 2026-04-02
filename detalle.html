@@ -23,8 +23,7 @@
                 <h1 id="exam-title">Cargando examen...</h1>
                 <span class="exam-code" id="exam-code">COD: GEN-000</span>
             </div>
-
-            <div class="detail-body">
+<div class="detail-body">
                 <div class="info-grid">
                     
                     <div class="info-item">
@@ -40,18 +39,8 @@
                     </div>
 
                     <div class="info-item">
-                        <span class="label">Ayuno / Preparación:</span>
-                        <p id="exam-prep" class="highlight-text">--</p>
-                    </div>
-
-                    <div class="info-item">
                         <span class="label">Volumen Mínimo:</span>
                         <p id="exam-volume">--</p>
-                    </div>
-
-                    <div class="info-item">
-                        <span class="label">Tiempo de Entrega:</span>
-                        <p id="exam-time">--</p>
                     </div>
 
                     <div class="info-item">
@@ -59,13 +48,62 @@
                         <p id="exam-method">--</p>
                     </div>
 
+                    <div class="info-item" style="grid-column: 1 / -1; width: 100%;">
+                        <span class="label">Ayuno / Preparación:</span>
+                        <p id="exam-prep" class="highlight-text">--</p>
+                    </div>
+
                 </div>
 
-                <div class="clinical-info">
-                    <h3><i class="fa-solid fa-circle-info"></i> Información Clínica</h3>
+                <div class="clinical-info" style="margin-bottom: 25px; border-left: 4px solid #00509e;">
+                    <h3 style="color: #00509e;"><i class="fa-solid fa-circle-info"></i> Información Clínica</h3>
                     <p id="exam-desc">Seleccione un examen para ver su información detallada.</p>
                 </div>
+
+                <div style="background: rgba(41, 128, 185, 0.05); border: 1px solid rgba(41, 128, 185, 0.2); padding: 15px 20px; border-radius: 8px;">
+                    <h4 style="color: #00509e; margin-bottom: 15px; font-size: 1rem; text-align: center;"><i class="fa-regular fa-clock"></i> POLÍTICA DE ENTREGA DE RESULTADOS</h4>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; text-align: center;">
+                        <div style="background: white; padding: 10px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                            <p style="margin: 0; color: #e74c3c; font-size: 0.9rem;"><strong><i class="fa-solid fa-truck-medical"></i> Emergencias</strong></p>
+                            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">30 min a 1 hora</p>
+                        </div>
+                        <div style="background: white; padding: 10px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                            <p style="margin: 0; color: #27ae60; font-size: 0.9rem;"><strong><i class="fa-solid fa-users"></i> Consultorio Externo</strong></p>
+                            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">Día siguiente</p>
+                        </div>
+                        <div style="background: white; padding: 10px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                            <p style="margin: 0; color: #8e44ad; font-size: 0.9rem;"><strong><i class="fa-solid fa-bacteria"></i> Microbiología</strong></p>
+                            <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #555;">Cultivos: 3 días<br>Hemocultivos: 5 días</p>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 0.8rem; color: #666; margin: 15px 0 0 0; text-align: center; border-top: 1px dashed rgba(41, 128, 185, 0.2); padding-top: 10px;">
+                        <i class="fa-solid fa-star" style="color: #f39c12;"></i> <strong>Prioridades:</strong> Se pueden coordinar adelantos de resultados o prioirdad para gestantes, pacientes oncológicos, urgencias u otra situación de gravedad.
+                    </p>
+                </div>
+
             </div>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
         </div>
     </div>
 
@@ -135,7 +173,7 @@
                 prep: 'No requiere ayuno estricto. Se puede realizar a cualquier hora.',
                 volume: '2 mL',
                 time: '2 Horas',
-                method: 'Westergren (Automatizado o Manual)',
+                method: 'Automatizado o Manual',
                 desc: 'Mide la rapidez con la que los glóbulos rojos se asientan en el fondo de un tubo en una hora. Es un marcador inespecífico de inflamación: si caen muy rápido (valor alto), indica que hay inflamación, infección o enfermedades autoinmunes en el cuerpo.'
             },
             'constantes': {
@@ -1279,7 +1317,6 @@
                 document.getElementById('exam-tube').innerHTML = `<span class="tube-color-circle" style="background-color: ${data.tubeColor}"></span> ${data.tube}`;
                 document.getElementById('exam-prep').innerText = data.prep;
                 document.getElementById('exam-volume').innerText = data.volume;
-                document.getElementById('exam-time').innerText = data.time;
                 document.getElementById('exam-method').innerText = data.method;
                 document.getElementById('exam-desc').innerText = data.desc;
                 
@@ -1295,4 +1332,6 @@
         window.onload = loadExamDetails;
     </script>
 </body>
+
+</div>
 </html>

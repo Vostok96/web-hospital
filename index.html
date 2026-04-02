@@ -86,6 +86,48 @@
             alert("⚠️ SECCIÓN EN DESARROLLO\n\nEl área de " + area + " estará disponible próximamente.\nEstamos coordinando el listado oficial de exámenes.");
         }
     </script>
+    <button class="btn-flotante-sug" onclick="abrirModalSug()">
+        <i class="fa-regular fa-comment-dots"></i> Sugerencias
+    </button>
+
+    <div class="modal-sugerencia" id="modalSug">
+        <div class="modal-content-sug">
+            <i class="fa-solid fa-xmark cerrar-modal" onclick="cerrarModalSug()"></i>
+            
+            <h3 style="color: #00509e; margin-top: 0; margin-bottom: 10px; font-size: 1.3rem;">
+                <i class="fa-solid fa-envelope-open-text"></i> Buzón de Sugerencias
+            </h3>
+            <p style="font-size: 0.9rem; color: #555; margin-bottom: 20px; line-height: 1.5;">
+                Su opinión nos ayuda a mejorar continuamente. Puede dejar su mensaje de forma anónima o utilizar un seudónimo.
+            </p>
+            
+            <form name="buzon-sugerencias" method="POST" data-netlify="true">
+                <label style="font-size: 0.85rem; font-weight: bold; color: #333;">Seudónimo o Nombre (Opcional):</label>
+                <input type="text" name="nombre" class="form-sug-input" placeholder="Ej: Paciente anónimo, Juan, etc.">
+                
+                <label style="font-size: 0.85rem; font-weight: bold; color: #333;">Su Sugerencia / Mensaje (Requerido):</label>
+                <textarea name="mensaje" class="form-sug-textarea" placeholder="Escriba su comentario, queja o sugerencia aquí..." required></textarea>
+                
+                <button type="submit" class="btn-enviar-sug"><i class="fa-solid fa-paper-plane"></i> Enviar Mensaje</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModalSug() {
+            document.getElementById('modalSug').style.display = 'flex';
+        }
+        function cerrarModalSug() {
+            document.getElementById('modalSug').style.display = 'none';
+        }
+        // Cerrar al hacer clic fuera de la caja blanca
+        window.onclick = function(event) {
+            let modal = document.getElementById('modalSug');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>
