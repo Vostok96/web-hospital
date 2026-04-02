@@ -101,7 +101,9 @@
                 Su opinión nos ayuda a mejorar continuamente. Puede dejar su mensaje de forma anónima o utilizar un seudónimo.
             </p>
             
-            <form name="buzon-sugerencias" method="POST" data-netlify="true">
+            <form name="buzon-sugerencias" method="POST" data-netlify="true" action="/index.html">
+                <input type="hidden" name="form-name" value="buzon-sugerencias" />
+                
                 <label style="font-size: 0.85rem; font-weight: bold; color: #333;">Seudónimo o Nombre (Opcional):</label>
                 <input type="text" name="nombre" class="form-sug-input" placeholder="Ej: Paciente anónimo, Juan, etc.">
                 
