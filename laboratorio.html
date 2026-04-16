@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="logo-hospital.png" type="image/png">
-    <link rel="preload" href="fondo.jpg" as="image">
+    <link rel="preload" href="fondo.webp" as="image">
 </head>
 <body>
     <a href="index.html" class="btn-volver" style="z-index: 10001;">
@@ -36,9 +36,9 @@
     
         <div class="dept-title">DEPARTAMENTO DE PATOLOGÍA CLÍNICA Y ANATOMÍA PATOLÓGICA</div>
         </header>
-        <div style="max-width: 600px; margin: 0 auto 30px auto; position: relative;">
+        <div style="max-width: 600px; margin: 0 auto 12px auto; position: relative;">
             <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #003366; font-size: 1.1rem;"></i>
-            
+            <label for="searchInput" class="sr-only">Buscar examen del laboratorio</label>
             <input type="text" id="searchInput" onkeyup="filtrarExamenes()" placeholder="Buscar examen (Ej: Glucosa, Hemograma...)" 
             style="width: 100%; padding: 15px 15px 15px 50px; border-radius: 50px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-size: 1rem; outline: none; color: #333;">
             
@@ -48,6 +48,12 @@
                     font-style: italic;
                 }
             </style>
+        </div>
+        <div class="status-sync-note">
+            <div>
+                <strong><i class="fa-solid fa-tower-broadcast"></i> Disponibilidad centralizada</strong>
+                <p id="status-sync-meta" class="status-meta is-muted">Consultando el estado mas reciente del laboratorio...</p>
+            </div>
         </div>
         <div class="container">
             
@@ -497,17 +503,17 @@
                         <a href="fichas/EDA - CÓLERA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> EDA - Cólera</a>
                         <a href="fichas/EDA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> EDA</a>
                         <a href="fichas/EXPOSICIÓN E INTOXICACIÓN POR PLAGUICIDAS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Intoxicación por Plaguicidas</a>
-                        <a href="fichas/FASCIOLASIS HUMANA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Fasciolasis Humana</a>
+                        <a href="fichas/FASCIOLOSIS HUMANA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Fasciolosis Humana</a>
                         <a href="fichas/FIEBRE AMARILLA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Fiebre Amarilla</a>
-                        <a href="fichas/FORMULARIO ENVÍO DE CEPAS BACTERIANAS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Envío de Cepas Bacterianas</a>
+                        <a href="fichas/FORMULARIO ENVÍO DE  CEPAS BACTERIANAS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Envío de Cepas Bacterianas</a>
                         <a href="fichas/HEPATITIS B.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Hepatitis B</a>
                         <a href="fichas/INFECCIONES ASOCIADAS A LA ATENCION EN SALUD.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Infecciones IAAS</a>
                         <a href="fichas/IRAG INUSITADA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> IRAG Inusitada</a>
                         <a href="fichas/LEISHMANIASIS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Leishmaniasis</a>
                         <a href="fichas/LEPTOSPIROSIS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Leptospirosis</a>
                         <a href="fichas/MALARIA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Malaria</a>
-                        <a href="fichas/MENINGITIS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Meningitis Menores 5 años</a>
-                        <a href="fichas/MENINGITIS BACTERIANA EN MENORES DE 5 AÑOS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Meningitis</a>
+                        <a href="fichas/MENINGITIS BACTERIANA EN MENORES DE 5 AÑOS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Meningitis Menores 5 años</a>
+                        <a href="fichas/MENINGITIS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Meningitis</a>
                         <a href="fichas/METALES PESADOS Y METALOIDES.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Metales Pesados</a>
                         <a href="fichas/NEUMONIA BACTERIA MENORES 5 AÑOS.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Neumonía Menores de 5 Años</a>
                         <a href="fichas/PARALISIS FLACIDA AGUDA.pdf" target="_blank" class="btn-pdf-compact"><i class="fa-solid fa-download"></i> Parálisis Flácida Aguda</a>
@@ -632,6 +638,7 @@
         });
     }
     </script>
+    <script type="module" src="lab-status-client.js"></script>
 </body>
 
 </html>
