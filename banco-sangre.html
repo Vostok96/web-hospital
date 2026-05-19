@@ -10,7 +10,7 @@
     <link rel="icon" href="logo-hospital.png" type="image/png">
     <link rel="preload" href="fondo.webp" as="image">
     <style>
-        /* Estilos adicionales específicos para el Banco de Sangre */
+        
         .blood-header {
             background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%) !important;
         }
@@ -294,9 +294,9 @@
 
     <script>
     window.addEventListener('load', function() {
-        var tiempoFinal = 500; // Por defecto rápido
+        var tiempoFinal = 500;
         
-        // Si no existe la variable, es la primera vez en toda la web
+
         if (!sessionStorage.getItem('visita_realizada')) {
             tiempoFinal = 2000; 
             sessionStorage.setItem('visita_realizada', 'si');

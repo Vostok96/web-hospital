@@ -44,7 +44,7 @@
             
             <style>
                 #searchInput::placeholder {
-                    color: rgba(0, 0, 0, 0.4); /* Color negro al 40% de opacidad (gris suave) */
+                    color: rgba(0, 0, 0, 0.4); 
                     font-style: italic;
                 }
             </style>
@@ -148,7 +148,7 @@
                     <h3>BIOQUÍMICA CLÍNICA</h3>
                 </div>
                 <ul>
-                    <!--Para poner agotado <li>Electrolitos (Na,Cl,K) <span class="status no">AGOTADO</span></li>-->
+                    
                     
                     <li data-tags="riesgo quirurgico operacion perfil diabetico diabetes azucar">
                         <a href="detalle.html?id=glucosa" class="exam-link">Glucosa Basal</a>
@@ -573,30 +573,30 @@
     </footer>
     <script>
     window.addEventListener('load', function() {
-        // 1. Definimos los tiempos
-        var tiempoPrimeraVez = 2500; // 2.5 segundos (Lento y elegante)
-        var tiempoRegreso = 500;     // 0.5 segundos (Rápido y ágil)
-        
-        var tiempoFinal = tiempoPrimeraVez; // Por defecto asumimos que es nuevo
 
-        // 2. Preguntamos a la memoria del navegador si ya visitó la página
+        var tiempoPrimeraVez = 2500;
+        var tiempoRegreso = 500;
+        
+        var tiempoFinal = tiempoPrimeraVez;
+
+
         if (sessionStorage.getItem('visita_realizada')) {
-            tiempoFinal = tiempoRegreso; // Si ya existe el registro, usamos el tiempo rápido
+            tiempoFinal = tiempoRegreso;
         }
 
-        // 3. Ejecutamos la transición
+
         setTimeout(function() {
             document.getElementById('intro-loader').classList.add('fade-out');
             
-            // 4. Marcamos en la memoria que ya visitó (para la próxima vez)
+
             sessionStorage.setItem('visita_realizada', 'si');
         }, tiempoFinal); 
     });
     </script>
     <script>
-    // Función mágica para quitar tildes y volver minúsculas
+
     function normalizarTexto(texto) {
-        // El "|| ''" es por si el texto viene vacío, que no de error
+
         return (texto || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
@@ -610,24 +610,24 @@
             var hayCoincidencias = false;
 
             items.forEach(function(item) {
-                // 1. Texto visible (Nombre del examen)
+
                 var enlace = item.getElementsByTagName("a")[0];
                 var nombreExamen = normalizarTexto(enlace.textContent || enlace.innerText);
                 
-                // 2. Texto oculto (Tus etiquetas data-tags)
-                // Aquí es donde ocurre la magia: leemos el atributo
+
+
                 var etiquetas = normalizarTexto(item.getAttribute("data-tags"));
 
-                // 3. COMPARAR: ¿Está en el nombre O en las etiquetas?
+
                 if (nombreExamen.indexOf(textoBusqueda) > -1 || etiquetas.indexOf(textoBusqueda) > -1) {
-                    item.style.display = ""; // Mostrar
+                    item.style.display = "";
                     hayCoincidencias = true;
                 } else {
-                    item.style.display = "none"; // Ocultar
+                    item.style.display = "none";
                 }
             });
 
-            // 4. Manejo de tarjetas vacías
+
             if (textoBusqueda === "") {
                 card.style.display = "";
             } else if (!hayCoincidencias) {

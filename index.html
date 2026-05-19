@@ -74,14 +74,14 @@
     </div>
 
     <script>
-        // Animación de entrada
+
         window.addEventListener('load', function() {
             setTimeout(function() {
                 document.getElementById('intro-loader').classList.add('fade-out');
             }, 2000);
         });
 
-        // Función para las secciones en construcción
+
         function proximamente(area) {
             alert("⚠️ SECCIÓN EN DESARROLLO\n\nEl área de " + area + " estará disponible próximamente.\nEstamos coordinando el listado oficial de exámenes.");
         }
@@ -122,7 +122,7 @@
         function cerrarModalSug() {
             document.getElementById('modalSug').style.display = 'none';
         }
-        // Cerrar al hacer clic fuera de la caja blanca
+
         window.onclick = function(event) {
             let modal = document.getElementById('modalSug');
             if (event.target == modal) {

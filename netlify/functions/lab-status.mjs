@@ -3,9 +3,21 @@ import { getStore } from "@netlify/blobs";
 
 const STORE_NAME = "lab-status";
 const STORE_KEY = "laboratorio";
+const SECURITY_HEADERS = {
+  "content-security-policy":
+    "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; upgrade-insecure-requests",
+  "permissions-policy":
+    "accelerometer=(), autoplay=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()",
+  "referrer-policy": "strict-origin-when-cross-origin",
+  "strict-transport-security": "max-age=31536000; includeSubDomains",
+  "x-content-type-options": "nosniff",
+  "x-frame-options": "SAMEORIGIN",
+};
+
 const JSON_HEADERS = {
   "cache-control": "no-store",
   "content-type": "application/json; charset=utf-8",
+  ...SECURITY_HEADERS,
 };
 
 function jsonResponse(payload, status = 200) {
